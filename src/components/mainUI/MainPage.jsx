@@ -18,7 +18,7 @@ class MainPage extends Component {
 
   styles = {
     mainPage: {
-      position:'absolute',
+      position: 'absolute',
       height: '100%',
       width: '100%',
       backgroundColor: '#eee'
