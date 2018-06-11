@@ -1,10 +1,22 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { Route } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
 import CreateFusenButtonComponent from './CreateFusenButtonComponent';
 import FusenComponent from './FusenComponent';
 import APIMock from './APIMock';
 import ContentsArea from './ContentsArea';
+
+const styles = {
+  mainPage: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
+    backgroundColor: '#eee'
+  }
+}
 
 class MainPage extends Component {
   constructor(props) {
@@ -15,15 +27,6 @@ class MainPage extends Component {
       positions: {}
     }
     this.initState();
-  }
-
-  styles = {
-    mainPage: {
-      position: 'absolute',
-      height: '100%',
-      width: '100%',
-      backgroundColor: '#eee'
-    }
   }
 
   async initState() {
@@ -58,8 +61,8 @@ class MainPage extends Component {
     //各付箋の位置をランダムで指定
     Object.keys(fusens).forEach(id => {
       positions[id] = {
-        top: Math.random() * document.documentElement.clientHeight,
-        left: Math.random() * document.documentElement.clientWidth
+        top: Math.random(),
+        left: Math.random()
       }
     });
     return positions;
@@ -105,27 +108,35 @@ class MainPage extends Component {
     }
   }
 
+  moveFusen = (fusenID, toX, toY) => {
+    const positionsCopy = Object.assign({}, this.state.positions);
+    positionsCopy[fusenID] = {
+      left: toX,
+      top: toY
+    }
+
+    this.setState({ positions: positionsCopy });
+  }
+
   render() {
     return (
-      <BrowserRouter>
-        <div className="mainPage" style={this.styles.mainPage}>
-          <ContentsArea>
-            {Object.keys(this.state.fusens).map((id, index) => (
-              <FusenComponent
-                fusen={this.state.fusens[id]}
-                position={this.state.positions[id]}
-                key={id}
-                deleteFusen={this.deleteFusen}
-              />
-            ))}
-            <CreateFusenButtonComponent
-              createFusen={this.createFusen}
+      <div className="mainPage" style={styles.mainPage}>
+        <ContentsArea moveFusen={this.moveFusen}>
+          {Object.keys(this.state.fusens).map((id, index) => (
+            <FusenComponent
+              fusen={this.state.fusens[id]}
+              position={this.state.positions[id]}
+              key={id}
+              deleteFusen={this.deleteFusen}
             />
-          </ContentsArea>
-        </div>
-      </BrowserRouter>
+          ))}
+          <CreateFusenButtonComponent
+            createFusen={this.createFusen}
+          />
+        </ContentsArea>
+      </div>
     );
   }
 }
 
-export default MainPage;
+export default DragDropContext(HTML5Backend)(MainPage);
