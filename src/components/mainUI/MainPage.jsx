@@ -4,6 +4,7 @@ import { BrowserRouter, Link } from "react-router-dom";
 import CreateFusenButtonComponent from './CreateFusenButtonComponent';
 import FusenComponent from './FusenComponent';
 import APIMock from './APIMock';
+import ContentsArea from './ContentsArea';
 
 class MainPage extends Component {
   constructor(props) {
@@ -108,17 +109,19 @@ class MainPage extends Component {
     return (
       <BrowserRouter>
         <div className="mainPage" style={this.styles.mainPage}>
-          {Object.keys(this.state.fusens).map((id, index) => (
-            <FusenComponent
-              fusen={this.state.fusens[id]}
-              position={this.state.positions[id]}
-              key={id}
-              deleteFusen={this.deleteFusen}
+          <ContentsArea>
+            {Object.keys(this.state.fusens).map((id, index) => (
+              <FusenComponent
+                fusen={this.state.fusens[id]}
+                position={this.state.positions[id]}
+                key={id}
+                deleteFusen={this.deleteFusen}
+              />
+            ))}
+            <CreateFusenButtonComponent
+              createFusen={this.createFusen}
             />
-          ))}
-          <CreateFusenButtonComponent
-            createFusen={this.createFusen}
-          />
+          </ContentsArea>
         </div>
       </BrowserRouter>
     );
