@@ -1,9 +1,23 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { DragDropContext } from 'react-dnd';
+import HTML5Backend from 'react-dnd-html5-backend';
 import { Route } from "react-router";
 import { BrowserRouter, Link } from "react-router-dom";
 import CreateFusenButtonComponent from './CreateFusenButtonComponent';
 import FusenComponent from './FusenComponent';
 import APIMock from './APIMock';
+import ContentsArea from './ContentsArea';
+import DeleteArea from './DeleteArea';
+
+const styles = {
+  mainPage: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    overflow: 'hidden',
+    backgroundColor: '#eee'
+  }
+}
 
 class MainPage extends Component {
   constructor(props) {
@@ -14,15 +28,6 @@ class MainPage extends Component {
       positions: {}
     }
     this.initState();
-  }
-
-  styles = {
-    mainPage: {
-      position:'absolute',
-      height: '100%',
-      width: '100%',
-      backgroundColor: '#eee'
-    }
   }
 
   async initState() {
@@ -57,8 +62,8 @@ class MainPage extends Component {
     //各付箋の位置をランダムで指定
     Object.keys(fusens).forEach(id => {
       positions[id] = {
-        top: Math.random() * document.documentElement.clientHeight,
-        left: Math.random() * document.documentElement.clientWidth
+        top: Math.random(),
+        left: Math.random()
       }
     });
     return positions;
@@ -88,26 +93,40 @@ class MainPage extends Component {
     }
   }
 
-  deleteFusen = async (fusen) => {
-    //TODO:APIの返信を待つことなく削除→失敗時は復元することができそう
-    try {
-      await APIMock.deleteFusen(this.props.userID, fusen.fusenID);
+  deleteFusen = async (fusenID) => {
+    const fusensCopy = Object.assign({}, this.state.fusens);
+    const positionsCopy = Object.assign({}, this.state.positions);
+    const deletedFusen = fusensCopy[fusenID];
+    const deletedPosition = positionsCopy[fusenID];
 
-      const fusensCopy = Object.assign({}, this.state.fusens);
-      const positionsCopy = Object.assign({}, this.state.positions);
-      delete fusensCopy[fusen.fusenID];
-      delete positionsCopy[fusen.fusenID];
+    delete fusensCopy[fusenID];
+    delete positionsCopy[fusenID];
+    this.setState({ fusens: fusensCopy, positions: positionsCopy });
 
-      this.setState({ fusens: fusensCopy, positions: positionsCopy });
-    } catch (e) {
-      console.log('削除失敗'); //TODO:エラー表示
+    await APIMock.deleteFusen(this.props.userID, fusenID)
+      .catch((e) => {
+        //削除失敗時に復元
+        fusensCopy[fusenID] = deletedFusen;
+        positionsCopy[fusenID] = deletedPosition;
+        this.setState({ fusens: fusensCopy, positions: positionsCopy });
+        console.log('削除失敗'); //TODO:エラー表示
+      });
+  }
+
+  moveFusen = (fusenID, toX, toY) => {
+    const positionsCopy = Object.assign({}, this.state.positions);
+    positionsCopy[fusenID] = {
+      left: toX,
+      top: toY
     }
+
+    this.setState({ positions: positionsCopy });
   }
 
   render() {
     return (
-      <BrowserRouter>
-        <div className="mainPage" style={this.styles.mainPage}>
+      <div className="mainPage" style={styles.mainPage}>
+        <ContentsArea moveFusen={this.moveFusen}>
           {Object.keys(this.state.fusens).map((id, index) => (
             <FusenComponent
               fusen={this.state.fusens[id]}
@@ -116,13 +135,12 @@ class MainPage extends Component {
               deleteFusen={this.deleteFusen}
             />
           ))}
-          <CreateFusenButtonComponent
-            createFusen={this.createFusen}
-          />
-        </div>
-      </BrowserRouter>
+        </ContentsArea>
+        <CreateFusenButtonComponent createFusen={this.createFusen} />
+        <DeleteArea deleteFusen={this.deleteFusen} />
+      </div>
     );
   }
 }
 
-export default MainPage;
+export default DragDropContext(HTML5Backend)(MainPage);
