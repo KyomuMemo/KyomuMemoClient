@@ -94,19 +94,23 @@ class MainPage extends Component {
   }
 
   deleteFusen = async (fusenID) => {
-    //TODO:APIの返信を待つことなく削除→失敗時は復元することができそう
-    try {
-      await APIMock.deleteFusen(this.props.userID, fusenID);
+    const fusensCopy = Object.assign({}, this.state.fusens);
+    const positionsCopy = Object.assign({}, this.state.positions);
+    const deletedFusen = fusensCopy[fusenID];
+    const deletedPosition = positionsCopy[fusenID];
 
-      const fusensCopy = Object.assign({}, this.state.fusens);
-      const positionsCopy = Object.assign({}, this.state.positions);
-      delete fusensCopy[fusenID];
-      delete positionsCopy[fusenID];
+    delete fusensCopy[fusenID];
+    delete positionsCopy[fusenID];
+    this.setState({ fusens: fusensCopy, positions: positionsCopy });
 
-      this.setState({ fusens: fusensCopy, positions: positionsCopy });
-    } catch (e) {
-      console.log('削除失敗'); //TODO:エラー表示
-    }
+    await APIMock.deleteFusen(this.props.userID, fusenID)
+      .catch((e) => {
+        //削除失敗時に復元
+        fusensCopy[fusenID] = deletedFusen;
+        positionsCopy[fusenID] = deletedPosition;
+        this.setState({ fusens: fusensCopy, positions: positionsCopy });
+        console.log('削除失敗'); //TODO:エラー表示
+      });
   }
 
   moveFusen = (fusenID, toX, toY) => {
