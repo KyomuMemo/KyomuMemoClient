@@ -35,7 +35,7 @@ export default class EditorComponent extends Component {
     });
   };
   addTag = e => {
-    let tag = this.state.tag;
+    let tag = this.state.tag !== undefined ? this.state.tag : [];
     tag.push("");
     this.setState({
       tag: tag
