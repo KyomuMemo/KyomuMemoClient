@@ -44,7 +44,7 @@ const styles = {
 
 class FusenComponent extends Component {
   handleDeleteClick = () => {
-    this.props.deleteFusen(this.props.fusen);
+    this.props.deleteFusen(this.props.fusen.fusenID);
   }
 
   render() {

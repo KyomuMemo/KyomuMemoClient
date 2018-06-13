@@ -7,6 +7,7 @@ import CreateFusenButtonComponent from './CreateFusenButtonComponent';
 import FusenComponent from './FusenComponent';
 import APIMock from './APIMock';
 import ContentsArea from './ContentsArea';
+import DeleteArea from './DeleteArea';
 
 const styles = {
   mainPage: {
@@ -92,15 +93,15 @@ class MainPage extends Component {
     }
   }
 
-  deleteFusen = async (fusen) => {
+  deleteFusen = async (fusenID) => {
     //TODO:APIの返信を待つことなく削除→失敗時は復元することができそう
     try {
-      await APIMock.deleteFusen(this.props.userID, fusen.fusenID);
+      await APIMock.deleteFusen(this.props.userID, fusenID);
 
       const fusensCopy = Object.assign({}, this.state.fusens);
       const positionsCopy = Object.assign({}, this.state.positions);
-      delete fusensCopy[fusen.fusenID];
-      delete positionsCopy[fusen.fusenID];
+      delete fusensCopy[fusenID];
+      delete positionsCopy[fusenID];
 
       this.setState({ fusens: fusensCopy, positions: positionsCopy });
     } catch (e) {
@@ -130,10 +131,9 @@ class MainPage extends Component {
               deleteFusen={this.deleteFusen}
             />
           ))}
-          <CreateFusenButtonComponent
-            createFusen={this.createFusen}
-          />
         </ContentsArea>
+        <CreateFusenButtonComponent createFusen={this.createFusen} />
+        <DeleteArea deleteFusen={this.deleteFusen} />
       </div>
     );
   }
