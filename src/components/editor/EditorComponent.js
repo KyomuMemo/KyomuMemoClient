@@ -5,6 +5,7 @@ import TitleComponent from "./TitleEditor";
 import { TwitterPicker } from "react-color";
 import { Button } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import APIMock from "../mainUI/APIMock";
 
 export default class EditorComponent extends Component {
   constructor(props) {
@@ -34,7 +35,7 @@ export default class EditorComponent extends Component {
     });
   };
   addTag = e => {
-    let tag = this.state.tag;
+    let tag = this.state.tag !== undefined ? this.state.tag : [];
     tag.push("");
     this.setState({
       tag: tag
@@ -46,15 +47,20 @@ export default class EditorComponent extends Component {
   };
 
   onColorChanged = e => {
-    this.setState({ color: e.hex });
+    this.setState({ color: e.hex.split("#")[1] });
   };
-  onSaveButtonClicked = e => {
-    console.log(this.state)
-    ///this.props.saveFusen(this.state);
+
+  onSaveButtonClicked = async e => {
+    try {
+      await APIMock.updateFusen(this.state);
+    } catch (e) {
+      console.log(e);
+    }
   };
+
   render() {
     return (
-      <div style={{ backgroundColor: this.state.color, padding: "10px" }}>
+      <div style={{ backgroundColor: "#" + this.state.color, padding: "10px" }}>
         <TitleComponent
           onTitleChanged={this.onTitleChanged.bind(this)}
           title={this.state.title}
@@ -72,7 +78,7 @@ export default class EditorComponent extends Component {
           onChange={e => {
             this.setState({ text: e.target.value });
           }}
-          value={this.props.text}
+          value={this.state.text}
           fullWidth
         />
         <TwitterPicker

@@ -13,10 +13,10 @@ export default class TagEditor extends React.Component {
 
   componentWillUpdate(nextProps, nextState) {
     if (
-      this.props.value !== nextProps.value &&
-      nextProps.value !== nextState.value
+      this.props.tag !== nextProps.tag &&
+      nextProps.tag !== nextState.tag
     ) {
-      this.setState({ value: nextProps.value });
+      this.setState({ tag: nextProps.tag });
     }
   }
 
