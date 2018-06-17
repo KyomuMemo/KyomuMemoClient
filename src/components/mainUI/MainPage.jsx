@@ -1,23 +1,22 @@
-import React, { Component } from 'react';
-import { DragDropContext } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { Route } from "react-router";
-import { BrowserRouter, Link } from "react-router-dom";
-import CreateFusenButtonComponent from './CreateFusenButtonComponent';
-import FusenComponent from './FusenComponent';
-import APIMock from './APIMock';
-import ContentsArea from './ContentsArea';
-import DeleteArea from './DeleteArea';
+import React, { Component } from "react";
+import { DragDropContext } from "react-dnd";
+import HTML5Backend from "react-dnd-html5-backend";
+import { withRouter } from "react-router-dom";
+import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
+import FusenComponent from "./FusenComponent";
+import APIMock from "./APIMock";
+import ContentsArea from "./ContentsArea";
+import DeleteArea from "./DeleteArea";
 
 const styles = {
   mainPage: {
-    position: 'absolute',
-    height: '100%',
-    width: '100%',
-    overflow: 'hidden',
-    backgroundColor: '#eee'
+    position: "absolute",
+    height: "100%",
+    width: "100%",
+    overflow: "hidden",
+    backgroundColor: "#eee"
   }
-}
+};
 
 class MainPage extends Component {
   constructor(props) {
@@ -26,7 +25,7 @@ class MainPage extends Component {
     this.state = {
       fusens: {},
       positions: {}
-    }
+    };
     this.initState();
   }
 
@@ -40,7 +39,7 @@ class MainPage extends Component {
         positions: positions
       });
     } catch (e) {
-      console.log('取得失敗'); //TODO: エラー表示
+      console.log("取得失敗"); //TODO: エラー表示
     }
   }
 
@@ -52,7 +51,7 @@ class MainPage extends Component {
     let fusenObj = {};
     fusenArray.forEach(fusen => {
       fusenObj[fusen.fusenID] = fusen;
-    })
+    });
     return fusenObj;
   }
 
@@ -64,7 +63,7 @@ class MainPage extends Component {
       positions[id] = {
         top: Math.random(),
         left: Math.random()
-      }
+      };
     });
     return positions;
   }
@@ -89,11 +88,11 @@ class MainPage extends Component {
       this.updateFusen(fusen);
       //TODO:詳細画面に遷移したほうがいい？
     } catch (e) {
-      console.log('作成失敗'); //TODO:エラー表示
+      console.log("作成失敗"); //TODO:エラー表示
     }
-  }
+  };
 
-  deleteFusen = async (fusenID) => {
+  deleteFusen = async fusenID => {
     const fusensCopy = Object.assign({}, this.state.fusens);
     const positionsCopy = Object.assign({}, this.state.positions);
     const deletedFusen = fusensCopy[fusenID];
@@ -103,25 +102,28 @@ class MainPage extends Component {
     delete positionsCopy[fusenID];
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
 
-    await APIMock.deleteFusen(this.props.userID, fusenID)
-      .catch((e) => {
-        //削除失敗時に復元
-        fusensCopy[fusenID] = deletedFusen;
-        positionsCopy[fusenID] = deletedPosition;
-        this.setState({ fusens: fusensCopy, positions: positionsCopy });
-        console.log('削除失敗'); //TODO:エラー表示
-      });
-  }
+    await APIMock.deleteFusen(this.props.userID, fusenID).catch(e => {
+      //削除失敗時に復元
+      fusensCopy[fusenID] = deletedFusen;
+      positionsCopy[fusenID] = deletedPosition;
+      this.setState({ fusens: fusensCopy, positions: positionsCopy });
+      console.log("削除失敗"); //TODO:エラー表示
+    });
+  };
 
   moveFusen = (fusenID, toX, toY) => {
     const positionsCopy = Object.assign({}, this.state.positions);
     positionsCopy[fusenID] = {
       left: toX,
       top: toY
-    }
+    };
 
     this.setState({ positions: positionsCopy });
-  }
+  };
+
+  openFusen = fusenID => {
+    this.props.history.push("/fusen/" + fusenID);
+  };
 
   render() {
     return (
@@ -133,6 +135,7 @@ class MainPage extends Component {
               position={this.state.positions[id]}
               key={id}
               deleteFusen={this.deleteFusen}
+              openFusen={this.openFusen}
             />
           ))}
         </ContentsArea>
@@ -143,4 +146,4 @@ class MainPage extends Component {
   }
 }
 
-export default DragDropContext(HTML5Backend)(MainPage);
+export default withRouter(DragDropContext(HTML5Backend)(MainPage));

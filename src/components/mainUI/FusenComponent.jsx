@@ -47,6 +47,10 @@ class FusenComponent extends Component {
     this.props.deleteFusen(this.props.fusen.fusenID);
   }
 
+  handleFusenSelected = () => {
+    this.props.openFusen(this.props.fusen.fusenID);
+  }
+
   render() {
     const { fusen, position, connectDragSource, isDragging } = this.props;
 
@@ -62,7 +66,7 @@ class FusenComponent extends Component {
           <IconButton style={styles.deleteButton} onClick={this.handleDeleteClick}>
             <DeleteIcon style={styles.deleteIcon} />
           </IconButton>
-          <CardContent>
+          <CardContent onClick={this.handleFusenSelected}>
             <Typography variant='title'> {fusen.title} </Typography>
             <Typography color='textSecondary'> {fusen.tag.join(' ')} </Typography>
             <Typography> {fusen.text} </Typography>
