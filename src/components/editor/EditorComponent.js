@@ -47,21 +47,20 @@ export default class EditorComponent extends Component {
   };
 
   onColorChanged = e => {
-    this.setState({ color: e.hex });
+    this.setState({ color: e.hex.split("#")[1] });
   };
 
   onSaveButtonClicked = async e => {
-    console.log(this.state)
     try {
       await APIMock.updateFusen(this.state);
-    } catch(e) {
+    } catch (e) {
       console.log(e);
     }
   };
 
   render() {
     return (
-      <div style={{ backgroundColor: this.state.color, padding: "10px" }}>
+      <div style={{ backgroundColor: "#" + this.state.color, padding: "10px" }}>
         <TitleComponent
           onTitleChanged={this.onTitleChanged.bind(this)}
           title={this.state.title}
