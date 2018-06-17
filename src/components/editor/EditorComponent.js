@@ -5,6 +5,7 @@ import TitleComponent from "./TitleEditor";
 import { TwitterPicker } from "react-color";
 import { Button } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import APIMock from "../mainUI/APIMock";
 
 export default class EditorComponent extends Component {
   constructor(props) {
@@ -48,10 +49,16 @@ export default class EditorComponent extends Component {
   onColorChanged = e => {
     this.setState({ color: e.hex });
   };
-  onSaveButtonClicked = e => {
+
+  onSaveButtonClicked = async e => {
     console.log(this.state)
-    ///this.props.saveFusen(this.state);
+    try {
+      await APIMock.updateFusen(this.state);
+    } catch(e) {
+      console.log(e);
+    }
   };
+
   render() {
     return (
       <div style={{ backgroundColor: this.state.color, padding: "10px" }}>
