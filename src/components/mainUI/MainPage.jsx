@@ -122,7 +122,10 @@ class MainPage extends Component {
   };
 
   openFusen = fusenID => {
-    this.props.history.push("/fusen/" + fusenID);
+    this.props.history.push({
+      pathname: "/editor",
+      state: { fusen: this.state.fusens[fusenID] }
+    });
   };
 
   render() {

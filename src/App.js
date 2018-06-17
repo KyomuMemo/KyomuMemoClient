@@ -12,7 +12,7 @@ class App extends Component {
         <Grid container spacing={0}>
           <Grid item xs={12}>
             <Route path="/main" component={MainPage}/>
-            <Route path="/fusen/:fusenID" component={EditorPage}/>
+            <Route path="/editor" component={EditorPage}/>
           </Grid>
         </Grid>
       </BrowserRouter>
