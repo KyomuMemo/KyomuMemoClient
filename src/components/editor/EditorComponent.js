@@ -72,7 +72,7 @@ export default class EditorComponent extends Component {
           onChange={e => {
             this.setState({ text: e.target.value });
           }}
-          value={this.props.text}
+          value={this.state.text}
           fullWidth
         />
         <TwitterPicker
