@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Switch, Route, withRouter } from "react-router";
 import RegisterFormCompoent from "./RegisterForm";
 import LoginFormCompoent from "./LoginForm";
-import Typography from "@material-ui/core/Typography"
+import Typography from "@material-ui/core/Typography";
 
 class AccountPage extends Component {
   componentDidMount() {

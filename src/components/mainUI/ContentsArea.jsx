@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { DropTarget } from 'react-dnd';
-import { ItemTypes } from './Constants';
+import React, { Component } from "react";
+import { DropTarget } from "react-dnd";
+import { ItemTypes } from "./Constants";
 
 const contentTarget = {
   drop(props, monitor, component) {
     const offset = monitor.getSourceClientOffset();
     const fusen = monitor.getItem();
 
-    const area = document.getElementsByClassName('contentsArea')[0];
+    const area = document.getElementsByClassName("contentsArea")[0];
     const width = area.clientWidth;
     const height = area.clientHeight;
     const boxSize = 100;
@@ -21,7 +21,7 @@ const contentTarget = {
     //付箋のポジションを画面の大きさに対する割合で返す
     props.moveFusen(fusen.fusenID, offset.x / width, offset.y / height);
   }
-}
+};
 
 function collect(connect, monitor) {
   return {
@@ -36,11 +36,13 @@ class ContentsArea extends Component {
     const { connectDropTarget, children } = this.props;
 
     return connectDropTarget(
-      <div className='contentsArea' style={{ height: '100%', width: '100%' }}>
+      <div className="contentsArea" style={{ height: "100%", width: "100%" }}>
         {children}
       </div>
     );
   }
 }
 
-export default DropTarget(ItemTypes.FUSEN, contentTarget, collect)(ContentsArea);
+export default DropTarget(ItemTypes.FUSEN, contentTarget, collect)(
+  ContentsArea
+);

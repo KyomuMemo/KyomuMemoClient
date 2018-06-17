@@ -1,3 +1,3 @@
 export const ItemTypes = {
-  FUSEN: 'fusen'
+  FUSEN: "fusen"
 };
