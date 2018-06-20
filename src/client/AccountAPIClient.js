@@ -8,12 +8,12 @@ class AccountAPIClient {
       const result = await axios.get(
         url + "account/ " + AccountName + "/create"
       );
-      return result.data["userID"];
+      return { result: "ok", userID: result.data["userID"] };
     } catch (e) {
       if (e.response != undefined) {
-        return e.response.data;
+        return Object.assign({ result: "ng" }, e.response.data);
       } else {
-        return { message: e.toString() };
+        return { result: "ng", message: e.toString() };
       }
     }
   }
@@ -22,12 +22,12 @@ class AccountAPIClient {
       const result = await axios.get(
         url + "account/ " + AccountName + "/getid"
       );
-      return result.data["userID"];
+      return { result: "ok", userID: result.data["userID"] };
     } catch (e) {
       if (e.response != undefined) {
-        return e.response.data;
+        return Object.assign({ result: "ng" }, e.response.data);
       } else {
-        return { message: e.toString() };
+        return { result: "ng", message: e.toString() };
       }
     }
   }
