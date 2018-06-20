@@ -23,20 +23,7 @@ class APIMock {
       }, 100);
     });
   }
-
-  static getFusen(fusenID) {
-    let fusen = this.fusens.find(v => v.fusenID == fusenID);
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        if (fusen === undefined) {
-          reject();
-        } else {
-          resolve(fusen);
-        }
-      });
-    });
-  }
-
+  
   static createFusen(userID) {
     const fusen = {
       userID: userID,
