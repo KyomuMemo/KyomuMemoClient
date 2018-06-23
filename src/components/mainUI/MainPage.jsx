@@ -7,6 +7,7 @@ import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
 import APIMock from "./APIMock";
 import ContentsArea from "./ContentsArea";
 import DeleteArea from "./DeleteArea";
+import SearchResultArea from "../search/SerachResultArea";
 
 const styles = {
   mainPage: {
@@ -14,6 +15,8 @@ const styles = {
     height: "100%",
     width: "100%",
     overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
     backgroundColor: "#eee"
   }
 };
@@ -138,6 +141,15 @@ class MainPage extends Component {
   };
 
   render() {
+    const searchResultArea = (
+      <SearchResultArea
+        fusens={this.state.fusens}
+        searchWords={this.state.searchWords}
+        deleteFusen={this.deleteFusen}
+        openFusen={this.openFusen}
+      />
+    );
+
     const contentsArea = (
       <ContentsArea
         moveFusen={this.moveFusen}
@@ -154,7 +166,8 @@ class MainPage extends Component {
           updateSearchState={this.updateSearchState}
           isSearch={this.state.isSearch}
         />
-        {contentsArea}
+        {this.state.isSearch ? searchResultArea : contentsArea}
+
         <CreateFusenButtonComponent createFusen={this.createFusen} />
         <DeleteArea deleteFusen={this.deleteFusen} />
       </div>
