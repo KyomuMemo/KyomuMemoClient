@@ -134,7 +134,7 @@ class MainPage extends Component {
   };
 
   updateSearchState = searchStr => {
-    searchStr = searchStr.replace(/^\s+|\s+$/g, ""); //行頭行末のスペース削除
+    searchStr = searchStr.trim();
     const searchWords = searchStr.split(/\s+/); //スペース区切りで配列化
     const isSearch = searchStr !== "";
     this.setState({ searchWords: searchWords, isSearch: isSearch });
