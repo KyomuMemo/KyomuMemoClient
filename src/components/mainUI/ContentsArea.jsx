@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { DropTarget } from "react-dnd";
 import { ItemTypes } from "./Constants";
 import FusenComponent from "./FusenComponent";
+import DragWrapper from "./DragWrapper";
 
 const contentTarget = {
   drop(props, monitor, component) {
@@ -51,13 +52,13 @@ class ContentsArea extends Component {
         style={{ height: "100%", width: "100%", position: "relative" }}
       >
         {Object.keys(fusens).map((id, index) => (
-          <FusenComponent
-            fusen={fusens[id]}
-            position={positions[id]}
-            key={id}
-            deleteFusen={deleteFusen}
-            openFusen={openFusen}
-          />
+          <DragWrapper fusenID={id} position={positions[id]} key={id}>
+            <FusenComponent
+              fusen={fusens[id]}
+              deleteFusen={deleteFusen}
+              openFusen={openFusen}
+            />
+          </DragWrapper>
         ))}
       </div>
     );

@@ -1,33 +1,14 @@
 import React, { Component } from "react";
-import { DragSource } from "react-dnd";
-import { ItemTypes } from "./Constants";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Clear";
 
-const fusenSource = {
-  beginDrag(props, monitor, component) {
-    return { fusenID: props.fusen.fusenID };
-  },
-  canDrag(props, monitor) {
-    return true;
-  }
-};
-
-function collect(connect, monitor) {
-  return {
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging(),
-    canDrag: monitor.canDrag()
-  };
-}
-
 const styles = {
   fusen: {
-    position: "absolute",
-    width: "200px",
+    position: "relative",
+    width: 240,
     cursor: "pointer"
   },
   deleteButton: {
@@ -52,16 +33,10 @@ class FusenComponent extends Component {
   };
 
   render() {
-    const { fusen, position, connectDragSource, isDragging } = this.props;
+    const { fusen } = this.props;
 
-    const fusenPosition = {
-      top: `calc(${position.top} * 100%)`,
-      left: `calc(${position.left} * 100%)`,
-      opacity: isDragging ? 0 : 1
-    };
-
-    return connectDragSource(
-      <div style={Object.assign(fusenPosition, styles.fusen)}>
+    return (
+      <div style={styles.fusen}>
         <Card style={{ backgroundColor: `#${fusen.color}` }}>
           <IconButton
             style={styles.deleteButton}
@@ -80,6 +55,4 @@ class FusenComponent extends Component {
   }
 }
 
-export default DragSource(ItemTypes.FUSEN, fusenSource, collect)(
-  FusenComponent
-);
+export default FusenComponent;
