@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import SearchBar from "material-ui-search-bar";
-import IconButton from "@material-ui/core/IconButton";
-import BackIcon from "@material-ui/icons/ArrowBack";
 
 const styles = {
   searchBar: {
@@ -28,11 +26,6 @@ class SearchBarComponent extends Component {
     this.props.updateSearchState(word);
   };
 
-  handleBackClick = () => {
-    this.setState({ word: "" });
-    this.props.updateSearchState("");
-  };
-
   render() {
     const { isSearch } = this.props;
 
@@ -40,16 +33,6 @@ class SearchBarComponent extends Component {
       <div style={{ height: "auto" }}>
         <AppBar style={{ position: "relative" }}>
           <Toolbar>
-            <IconButton
-              onClick={this.handleBackClick}
-              style={{
-                position: "absolute",
-                visibility: isSearch ? "visible" : "hidden"
-              }}
-            >
-              <BackIcon style={{ color: "#fff" }} />
-            </IconButton>
-
             <SearchBar
               onChange={this.handleChange}
               onRequestSearch={this.handleRequestSearch}
