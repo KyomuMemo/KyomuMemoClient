@@ -55,6 +55,7 @@ class ContentsArea extends Component {
           <DragWrapper fusenID={id} position={positions[id]} key={id}>
             <FusenComponent
               fusen={fusens[id]}
+              searchWords={[]}
               deleteFusen={deleteFusen}
               openFusen={openFusen}
             />

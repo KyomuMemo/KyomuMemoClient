@@ -4,6 +4,7 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Clear";
+import Highlighter from "react-highlight-words";
 
 const styles = {
   fusen: {
@@ -33,7 +34,7 @@ class FusenComponent extends Component {
   };
 
   render() {
-    const { fusen } = this.props;
+    const { fusen, searchWords } = this.props;
 
     return (
       <div style={styles.fusen}>
@@ -45,9 +46,31 @@ class FusenComponent extends Component {
             <DeleteIcon style={styles.deleteIcon} />
           </IconButton>
           <CardContent onClick={this.handleFusenSelected}>
-            <Typography variant="title"> {fusen.title} </Typography>
-            <Typography color="textSecondary">{fusen.tag.join(" ")}</Typography>
-            <Typography> {fusen.text} </Typography>
+            <Typography variant="title">
+              <Highlighter
+                autoEscape={true}
+                searchWords={searchWords}
+                textToHighlight={fusen.title}
+              />
+            </Typography>
+            <Typography color="textSecondary">
+              {fusen.tag.map((tag, index) => (
+                <span key={index}>
+                  <Highlighter
+                    autoEscape={false}
+                    searchWords={searchWords.map(word => `^${word}$`)}
+                    textToHighlight={tag}
+                  />{" "}
+                </span>
+              ))}
+            </Typography>
+            <Typography>
+              <Highlighter
+                autoEscape={true}
+                searchWords={searchWords}
+                textToHighlight={fusen.text}
+              />
+            </Typography>
           </CardContent>
         </Card>
       </div>

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import StackGrid from "react-stack-grid";
-import SearchResultFusenComponent from "./SearchResultFusenComponent";
+import FusenComponent from "../mainUI/FusenComponent";
 import Typography from "@material-ui/core/Typography";
 
 const style = {
@@ -34,7 +34,7 @@ export default class SearchResultArea extends Component {
       if (this.matchesSearch(fusens[id], searchWords)) {
         matchedCount++;
         return (
-          <SearchResultFusenComponent
+          <FusenComponent
             fusen={fusens[id]}
             searchWords={searchWords}
             openFusen={openFusen}
@@ -58,7 +58,7 @@ export default class SearchResultArea extends Component {
       <div style={style}>
         {matchedCount === 0 ? noResult : ""}
         <StackGrid
-          columnWidth={200}
+          columnWidth={240}
           gutterWidth={8}
           gutterHeight={16}
           style={{ margin: "16px 0px" }}
