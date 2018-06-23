@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
 import { withRouter } from "react-router-dom";
+import SearchBarComponent from "./SearchBarComponent";
 import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
 import FusenComponent from "./FusenComponent";
 import APIMock from "./APIMock";
@@ -24,7 +25,9 @@ class MainPage extends Component {
 
     this.state = {
       fusens: {},
-      positions: {}
+      positions: {},
+      isSearch: false,
+      searchWords: []
     };
     this.initState();
   }
@@ -128,6 +131,13 @@ class MainPage extends Component {
     });
   };
 
+  updateSearchState = searchStr => {
+    searchStr = searchStr.replace(/^\s+|\s+$/g, ""); //行頭行末のスペース削除
+    const searchWords = searchStr.split(/\s+/); //スペース区切りで配列化
+    const isSearch = searchStr !== "";
+    this.setState({ searchWords: searchWords, isSearch: isSearch });
+  };
+
   render() {
     return (
       <div className="mainPage" style={styles.mainPage}>
@@ -142,6 +152,10 @@ class MainPage extends Component {
             />
           ))}
         </ContentsArea>
+        <SearchBarComponent
+          updateSearchState={this.updateSearchState}
+          isSearch={this.state.isSearch}
+        />
         <CreateFusenButtonComponent createFusen={this.createFusen} />
         <DeleteArea deleteFusen={this.deleteFusen} />
       </div>

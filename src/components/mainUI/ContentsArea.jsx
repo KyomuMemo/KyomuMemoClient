@@ -39,8 +39,11 @@ class ContentsArea extends Component {
     const { connectDropTarget, children } = this.props;
 
     return connectDropTarget(
-      <div className="contentsArea" style={{ height: "100%", width: "100%" }}>
         {children}
+      <div
+        className={"contentsArea"}
+        style={{ height: "100%", width: "100%", position: "relative" }}
+      >
       </div>
     );
   }
