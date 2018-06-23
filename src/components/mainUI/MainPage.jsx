@@ -4,7 +4,6 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { withRouter } from "react-router-dom";
 import SearchBarComponent from "./SearchBarComponent";
 import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
-import FusenComponent from "./FusenComponent";
 import APIMock from "./APIMock";
 import ContentsArea from "./ContentsArea";
 import DeleteArea from "./DeleteArea";
@@ -139,23 +138,23 @@ class MainPage extends Component {
   };
 
   render() {
+    const contentsArea = (
+      <ContentsArea
+        moveFusen={this.moveFusen}
+        fusens={this.state.fusens}
+        positions={this.state.positions}
+        deleteFusen={this.deleteFusen}
+        openFusen={this.openFusen}
+      />
+    );
+
     return (
       <div className="mainPage" style={styles.mainPage}>
-        <ContentsArea moveFusen={this.moveFusen}>
-          {Object.keys(this.state.fusens).map((id, index) => (
-            <FusenComponent
-              fusen={this.state.fusens[id]}
-              position={this.state.positions[id]}
-              key={id}
-              deleteFusen={this.deleteFusen}
-              openFusen={this.openFusen}
-            />
-          ))}
-        </ContentsArea>
         <SearchBarComponent
           updateSearchState={this.updateSearchState}
           isSearch={this.state.isSearch}
         />
+        {contentsArea}
         <CreateFusenButtonComponent createFusen={this.createFusen} />
         <DeleteArea deleteFusen={this.deleteFusen} />
       </div>
