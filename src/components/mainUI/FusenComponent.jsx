@@ -71,10 +71,7 @@ class FusenComponent extends Component {
           </IconButton>
           <CardContent onClick={this.handleFusenSelected}>
             <Typography variant="title"> {fusen.title} </Typography>
-            <Typography color="textSecondary">
-              {" "}
-              {fusen.tag.join(" ")}{" "}
-            </Typography>
+            <Typography color="textSecondary">{fusen.tag.join(" ")}</Typography>
             <Typography> {fusen.text} </Typography>
           </CardContent>
         </Card>
