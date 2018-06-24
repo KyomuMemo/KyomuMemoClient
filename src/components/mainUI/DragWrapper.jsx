@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { DragSource } from "react-dnd";
 import { ItemTypes } from "./Constants";
+import Fade from "@material-ui/core/Fade";
 
 const fusenSource = {
   beginDrag(props, monitor, component) {
@@ -34,7 +35,9 @@ class DragWrapper extends Component {
           visibility: isDragging ? "hidden" : "visible"
         }}
       >
-        {children}
+        <Fade in={true}>
+          <div>{children}</div>
+        </Fade>
       </div>
     );
   }
