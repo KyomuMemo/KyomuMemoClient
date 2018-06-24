@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { DropTarget } from "react-dnd";
 import { ItemTypes } from "./Constants";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Fade from "@material-ui/core/Fade";
 
 const deleteTarget = {
   drop(props, monitor, component) {
@@ -21,7 +22,6 @@ function collect(connect, monitor) {
 class DeleteArea extends Component {
   render() {
     const { connectDropTarget, isOver, canDrop } = this.props;
-    if (!isOver && !canDrop) return null;
 
     return connectDropTarget(
       <div
@@ -30,19 +30,24 @@ class DeleteArea extends Component {
           position: "absolute",
           bottom: 0,
           left: 0,
-          opacity: isOver ? 1 : canDrop ? 0.7 : 0
+          pointerEvents: canDrop ? "auto" : "none"
         }}
       >
-        <DeleteIcon
-          style={{
-            fontSize: 56,
-            position: "absolute",
-            bottom: 16,
-            left: 16,
-            fill: "#e00",
-            filter: isOver ? "drop-shadow(0px 0px 20px rgba(249, 0, 0, 1))" : ""
-          }}
-        />
+        <Fade in={canDrop}>
+          <DeleteIcon
+            style={{
+              fontSize: 56,
+              position: "absolute",
+              bottom: 16,
+              left: 16,
+              fill: "#e00",
+              filter: isOver
+                ? "drop-shadow(0px 0px 20px rgba(249, 0, 0, 1))"
+                : "",
+              opacity: isOver ? 1 : canDrop ? 0.4 : 0
+            }}
+          />
+        </Fade>
       </div>
     );
   }
