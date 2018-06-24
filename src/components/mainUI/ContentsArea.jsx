@@ -11,7 +11,8 @@ const contentTarget = {
     const area = document.getElementsByClassName("contentsArea")[0];
     const width = area.clientWidth;
     const height = area.clientHeight;
-    const boxSize = 100;
+    const boxWidth = 240;
+    const boxHeight = 100;
 
     const offset = monitor.getSourceClientOffset();
     let x = offset.x - area.offsetLeft;
@@ -20,8 +21,8 @@ const contentTarget = {
     //画面外に出たときの計算
     if (x < 0) x = 0;
     if (y < 0) y = 0;
-    if (x > width - boxSize) x = width - boxSize;
-    if (y > height - boxSize) y = height - boxSize;
+    if (x > width - boxWidth) x = width - boxWidth;
+    if (y > height - boxHeight) y = height - boxHeight;
 
     //付箋のポジションを画面の大きさに対する割合で返す
     props.moveFusen(fusen.fusenID, x / width, y / height);
