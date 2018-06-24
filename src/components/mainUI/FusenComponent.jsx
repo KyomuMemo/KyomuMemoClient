@@ -29,7 +29,7 @@ const FusenComponent = props => {
 
   return (
     <div style={styles.fusen}>
-      <Card style={{ backgroundColor: `#${fusen.color}` }}>
+      <Card style={{ backgroundColor: `#${fusen.color}`, minHeight: 100 }}>
         <IconButton
           style={styles.deleteButton}
           onClick={() => deleteFusen(fusen.fusenID)}
