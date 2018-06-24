@@ -21,6 +21,33 @@ const styles = {
   },
   deleteIcon: {
     height: 16
+  },
+  title: {
+    lineHeight: "1.16667em",
+    maxHeight: "calc(1.16667em * 2)",
+    overflow: "hidden",
+    wordWrap: "break-word",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 2
+  },
+  tag: {
+    lineHeight: "1.46429em",
+    maxHeight: "calc(1.46429em * 1)",
+    overflow: "hidden",
+    wordWrap: "break-word",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 1
+  },
+  text: {
+    lineHeight: "1.46429em",
+    maxHeight: "calc(1.46429em * 20)",
+    overflow: "hidden",
+    wordWrap: "break-word",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 20
   }
 };
 
@@ -37,14 +64,14 @@ const FusenComponent = props => {
           <DeleteIcon style={styles.deleteIcon} />
         </IconButton>
         <CardContent onClick={() => openFusen(fusen.fusenID)}>
-          <Typography variant="title">
+          <Typography variant="title" style={styles.title}>
             <Highlighter
               autoEscape={true}
               searchWords={searchWords}
               textToHighlight={fusen.title}
             />
           </Typography>
-          <Typography color="textSecondary">
+          <Typography color="textSecondary" style={styles.tag}>
             {fusen.tag.map((tag, index) => (
               <span key={index}>
                 <Highlighter
@@ -55,7 +82,7 @@ const FusenComponent = props => {
               </span>
             ))}
           </Typography>
-          <Typography>
+          <Typography style={styles.text}>
             {fusen.text.split("\n").map((text, index) => (
               <span key={index}>
                 <Highlighter
