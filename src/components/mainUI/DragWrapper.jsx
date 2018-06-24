@@ -38,6 +38,7 @@ class DragWrapper extends Component {
           width: "auto",
           top: `calc(${position.top} * 100%)`,
           left: `calc(${position.left} * 100%)`,
+          zIndex: position.zIndex,
           visibility: isDragging ? "hidden" : "visible"
         }}
       >

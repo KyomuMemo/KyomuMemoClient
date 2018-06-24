@@ -31,6 +31,7 @@ class MainPage extends Component {
       isSearch: false,
       searchWords: []
     };
+    this.maxZIndex = 1;
     this.initState();
   }
 
@@ -80,7 +81,8 @@ class MainPage extends Component {
 
       positions[id] = {
         top: getRandomPosition(areaHeight, boxHeight),
-        left: getRandomPosition(areaWidth, boxWidth)
+        left: getRandomPosition(areaWidth, boxWidth),
+        zIndex: 0
       };
     });
     return positions;
@@ -133,7 +135,8 @@ class MainPage extends Component {
     const positionsCopy = Object.assign({}, this.state.positions);
     positionsCopy[fusenID] = {
       left: toX,
-      top: toY
+      top: toY,
+      zIndex: this.maxZIndex++
     };
 
     this.setState({ positions: positionsCopy });
