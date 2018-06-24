@@ -1,19 +1,38 @@
 import React, { Component } from "react";
 import EditorComponent from "./EditorComponent";
-import APIMock from "../mainUI/APIMock";
+import AppContext from "../mainUI/AppContext";
+import { withRouter, Redirect } from "react-router-dom";
 
-export default class EditorPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fusen: props.location.state.fusen
-    };
+const style = {
+  root: {
+    background: "rgba(0,0,0,0.5)",
+    bottom: 0,
+    left: 0,
+    overflow: "auto",
+    position: "fixed",
+    right: 0,
+    top: 0,
+    zIndex: 2000,
+    padding: "5%"
   }
-  render() {
-    return (
-      <div>
-        <EditorComponent {...this.state.fusen} />
-      </div>
-    );
-  }
-}
+};
+
+const EditorPage = props => {
+  const backTomain = e => {
+    props.history.push("/");
+  };
+  return (
+    <div style={style.root} onClick={backTomain}>
+      <AppContext.Consumer>
+        {fusens => (
+          <EditorComponent
+            onSaveButtonClicked={props.saveFusen}
+            {...fusens[props.match.params.id]}
+          />
+        )}
+      </AppContext.Consumer>
+    </div>
+  );
+};
+
+export default withRouter(EditorPage);
