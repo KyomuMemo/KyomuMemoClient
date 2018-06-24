@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
@@ -24,58 +24,48 @@ const styles = {
   }
 };
 
-class FusenComponent extends Component {
-  handleDeleteClick = () => {
-    this.props.deleteFusen(this.props.fusen.fusenID);
-  };
+const FusenComponent = props => {
+  const { fusen, searchWords, deleteFusen, openFusen } = props;
 
-  handleFusenSelected = () => {
-    this.props.openFusen(this.props.fusen.fusenID);
-  };
-
-  render() {
-    const { fusen, searchWords } = this.props;
-
-    return (
-      <div style={styles.fusen}>
-        <Card style={{ backgroundColor: `#${fusen.color}` }}>
-          <IconButton
-            style={styles.deleteButton}
-            onClick={this.handleDeleteClick}
-          >
-            <DeleteIcon style={styles.deleteIcon} />
-          </IconButton>
-          <CardContent onClick={this.handleFusenSelected}>
-            <Typography variant="title">
-              <Highlighter
-                autoEscape={true}
-                searchWords={searchWords}
-                textToHighlight={fusen.title}
-              />
-            </Typography>
-            <Typography color="textSecondary">
-              {fusen.tag.map((tag, index) => (
-                <span key={index}>
-                  <Highlighter
-                    autoEscape={false}
-                    searchWords={searchWords.map(word => `^${word}$`)}
-                    textToHighlight={tag}
-                  />{" "}
-                </span>
-              ))}
-            </Typography>
-            <Typography>
-              <Highlighter
-                autoEscape={true}
-                searchWords={searchWords}
-                textToHighlight={fusen.text}
-              />
-            </Typography>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-}
+  return (
+    <div style={styles.fusen}>
+      <Card style={{ backgroundColor: `#${fusen.color}` }}>
+        <IconButton
+          style={styles.deleteButton}
+          onClick={() => deleteFusen(fusen.fusenID)}
+        >
+          <DeleteIcon style={styles.deleteIcon} />
+        </IconButton>
+        <CardContent onClick={() => openFusen(fusen.fusenID)}>
+          <Typography variant="title">
+            <Highlighter
+              autoEscape={true}
+              searchWords={searchWords}
+              textToHighlight={fusen.title}
+            />
+          </Typography>
+          <Typography color="textSecondary">
+            {fusen.tag.map((tag, index) => (
+              <span key={index}>
+                <Highlighter
+                  autoEscape={false}
+                  searchWords={searchWords.map(word => `^${word}$`)}
+                  textToHighlight={tag}
+                />{" "}
+              </span>
+            ))}
+          </Typography>
+          <Typography>
+            <Highlighter
+              autoEscape={true}
+              searchWords={searchWords}
+              textToHighlight={fusen.text}
+            />
+          </Typography>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
 
 export default FusenComponent;
