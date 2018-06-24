@@ -15,12 +15,18 @@ const fusenSource = {
 function collect(connect, monitor) {
   return {
     connectDragSource: connect.dragSource(),
+    connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging(),
     canDrag: monitor.canDrag()
   };
 }
 
 class DragWrapper extends Component {
+  componentDidMount() {
+    const img = new Image();
+    this.props.connectDragPreview(img);
+  }
+
   render() {
     const { connectDragSource, isDragging, position, children } = this.props;
 

@@ -3,6 +3,7 @@ import { DropTarget } from "react-dnd";
 import { ItemTypes } from "./Constants";
 import FusenComponent from "./FusenComponent";
 import DragWrapper from "./DragWrapper";
+import DragFusenLayer from "./DragFusenLayer";
 
 const contentTarget = {
   drop(props, monitor, component) {
@@ -62,6 +63,7 @@ class ContentsArea extends Component {
             />
           </DragWrapper>
         ))}
+        <DragFusenLayer fusens={fusens} />
       </div>
     );
   }
