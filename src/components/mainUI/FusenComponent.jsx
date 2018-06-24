@@ -56,11 +56,16 @@ const FusenComponent = props => {
             ))}
           </Typography>
           <Typography>
-            <Highlighter
-              autoEscape={true}
-              searchWords={searchWords}
-              textToHighlight={fusen.text}
-            />
+            {fusen.text.split("\n").map((text, index) => (
+              <span key={index}>
+                <Highlighter
+                  autoEscape={true}
+                  searchWords={searchWords}
+                  textToHighlight={text}
+                />
+                <br />
+              </span>
+            ))}
           </Typography>
         </CardContent>
       </Card>
