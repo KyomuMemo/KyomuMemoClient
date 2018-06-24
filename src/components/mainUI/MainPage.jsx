@@ -61,13 +61,26 @@ class MainPage extends Component {
   }
 
   initPositions(fusens) {
-    //TODO: 重なり制御とか
     let positions = {};
-    //各付箋の位置をランダムで指定
+
+    const getRandomPosition = (areaWidth, boxWidth) => {
+      let x = Math.random();
+      if (boxWidth > areaWidth) return x;
+
+      const isInArea = x * areaWidth + boxWidth < areaWidth;
+      return isInArea ? x : getRandomPosition(areaWidth, boxWidth);
+    };
+
     Object.keys(fusens).forEach(id => {
+      const area = document.getElementsByClassName("contentsArea")[0] || {};
+      const areaWidth = area.clientWidth || 1920;
+      const areaHeight = area.clientHeight || 1024;
+      const boxWidth = 240;
+      const boxHeight = 100;
+
       positions[id] = {
-        top: Math.random(),
-        left: Math.random()
+        top: getRandomPosition(areaHeight, boxHeight),
+        left: getRandomPosition(areaWidth, boxWidth)
       };
     });
     return positions;

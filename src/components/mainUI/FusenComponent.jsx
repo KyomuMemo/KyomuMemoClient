@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from "@material-ui/icons/Clear";
 import Highlighter from "react-highlight-words";
+import Fade from "@material-ui/core/Fade";
 
 const styles = {
   fusen: {
@@ -21,6 +22,33 @@ const styles = {
   },
   deleteIcon: {
     height: 16
+  },
+  title: {
+    lineHeight: "1.16667em",
+    maxHeight: "calc(1.16667em * 2)",
+    overflow: "hidden",
+    wordWrap: "break-word",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 2
+  },
+  tag: {
+    lineHeight: "1.46429em",
+    maxHeight: "calc(1.46429em * 1)",
+    overflow: "hidden",
+    wordWrap: "break-word",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 1
+  },
+  text: {
+    lineHeight: "1.46429em",
+    maxHeight: "calc(1.46429em * 20)",
+    overflow: "hidden",
+    wordWrap: "break-word",
+    display: "-webkit-box",
+    WebkitBoxOrient: "vertical",
+    WebkitLineClamp: 20
   }
 };
 
@@ -29,41 +57,48 @@ const FusenComponent = props => {
 
   return (
     <div style={styles.fusen}>
-      <Card style={{ backgroundColor: `#${fusen.color}` }}>
-        <IconButton
-          style={styles.deleteButton}
-          onClick={() => deleteFusen(fusen.fusenID)}
-        >
-          <DeleteIcon style={styles.deleteIcon} />
-        </IconButton>
-        <CardContent onClick={() => openFusen(fusen.fusenID)}>
-          <Typography variant="title">
-            <Highlighter
-              autoEscape={true}
-              searchWords={searchWords}
-              textToHighlight={fusen.title}
-            />
-          </Typography>
-          <Typography color="textSecondary">
-            {fusen.tag.map((tag, index) => (
-              <span key={index}>
-                <Highlighter
-                  autoEscape={false}
-                  searchWords={searchWords.map(word => `^${word}$`)}
-                  textToHighlight={tag}
-                />{" "}
-              </span>
-            ))}
-          </Typography>
-          <Typography>
-            <Highlighter
-              autoEscape={true}
-              searchWords={searchWords}
-              textToHighlight={fusen.text}
-            />
-          </Typography>
-        </CardContent>
-      </Card>
+      <Fade in={true}>
+        <Card style={{ backgroundColor: `#${fusen.color}`, minHeight: 100 }}>
+          <IconButton
+            style={styles.deleteButton}
+            onClick={() => deleteFusen(fusen.fusenID)}
+          >
+            <DeleteIcon style={styles.deleteIcon} />
+          </IconButton>
+          <CardContent onClick={() => openFusen(fusen.fusenID)}>
+            <Typography variant="title" style={styles.title}>
+              <Highlighter
+                autoEscape={true}
+                searchWords={searchWords}
+                textToHighlight={fusen.title}
+              />
+            </Typography>
+            <Typography color="textSecondary" style={styles.tag}>
+              {fusen.tag.map((tag, index) => (
+                <span key={index}>
+                  <Highlighter
+                    autoEscape={false}
+                    searchWords={searchWords.map(word => `^${word}$`)}
+                    textToHighlight={tag}
+                  />{" "}
+                </span>
+              ))}
+            </Typography>
+            <Typography style={styles.text}>
+              {fusen.text.split("\n").map((text, index) => (
+                <span key={index}>
+                  <Highlighter
+                    autoEscape={true}
+                    searchWords={searchWords}
+                    textToHighlight={text}
+                  />
+                  <br />
+                </span>
+              ))}
+            </Typography>
+          </CardContent>
+        </Card>
+      </Fade>
     </div>
   );
 };
