@@ -56,11 +56,11 @@ class EditorPage extends React.Component {
     return (
       <div style={style.root} onClick={this.backTomain}>
         <AppContext.Consumer>
-          {fusens => (
+          {fusen => (
             <EditorComponent
               onSaveButtonClicked={this.onSaveButtonClicked}
               onUpdated={this.updated}
-              {...fusens[this.props.match.params.id]}
+              {...fusen}
             />
           )}
         </AppContext.Consumer>
