@@ -70,7 +70,7 @@ export default class EditorComponent extends Component {
 
   render() {
     return (
-      <div onClick={e => e.stopPropagation()}>
+      <div>
         <Paper
           style={{
             backgroundColor: "#" + this.state.color,
@@ -78,6 +78,7 @@ export default class EditorComponent extends Component {
             zIndex: 2147483647 - 1
           }}
           elevation={0}
+          onClick={e => e.stopPropagation()}
         >
           <TitleComponent
             onTitleChanged={this.onTitleChanged.bind(this)}
@@ -94,22 +95,29 @@ export default class EditorComponent extends Component {
             rows={15}
             onChange={this.onTextChanged}
             value={this.state.text}
+            placeholder={"text"}
             fullWidth
           />
-          <div style={{ minHeight: "1.4em" }}>
+          <div style={{ minHeight: "1.5em", margin: "0.5em" }}>
             <Button
               onClick={e => this.props.onSaveButtonClicked(this.state)}
               style={{ display: "block", float: "right" }}
+              variant="contained"
+              size={"small"}
             >
               <SaveIcon />
             </Button>
           </div>
         </Paper>
-
-        <TwitterPicker
-          color={this.state.color}
-          onChangeComplete={this.onColorChanged.bind(this)}
-        />
+        <div
+          style={{ display: "inline-block" }}
+          onClick={e => e.stopPropagation()}
+        >
+          <TwitterPicker
+            color={this.state.color}
+            onChangeComplete={this.onColorChanged.bind(this)}
+          />
+        </div>
       </div>
     );
   }

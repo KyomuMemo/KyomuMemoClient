@@ -1,7 +1,17 @@
 import React from "react";
-import { TextField, Button, Icon } from "@material-ui/core";
+import { IconButton, Button, Input, InputAdornment } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
+
+const style = {
+  tag: {
+    display: "inline-block",
+    marginRight: 10
+  },
+  addbutton: {
+    float: "right"
+  }
+};
 
 export default class TagEditor extends React.Component {
   constructor(props) {
@@ -31,17 +41,24 @@ export default class TagEditor extends React.Component {
       this.state.tag != null ? (
         this.state.tag.map((tag, i, _) => {
           return (
-            <div key={i} style={{ display: "inline-block" }}>
-              <TextField
-                margin={'dense'}
+            <div key={i} style={style.tag}>
+              <Input
                 value={tag}
                 onChange={e => {
                   this.onChange(e, i);
                 }}
+                placeholder={"tag"}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={e => this.props.onClickRemoveButton(e, i)}
+                      size="small"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
-              <Button onClick={e => this.props.onClickRemoveButton(e, i)} size="small">
-                <DeleteIcon />
-              </Button>
             </div>
           );
         })
@@ -54,10 +71,8 @@ export default class TagEditor extends React.Component {
         {tags}
         <Button
           onClick={this.props.onClickAddButton}
-          color={"default"}
-          variant="raised"
           size="small"
-          style={{float: "right"}}
+          style={style.addbutton}
         >
           <AddIcon />
         </Button>

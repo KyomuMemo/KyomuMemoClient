@@ -34,6 +34,7 @@ export default class TitleEditor extends React.Component {
           fullWidth={true}
           style={style.input}
           disableUnderline={true}
+          placeholder={"title"}
         />
       </FormControl>
     );
