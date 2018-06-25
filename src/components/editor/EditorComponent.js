@@ -5,7 +5,6 @@ import TitleComponent from "./TitleEditor";
 import { TwitterPicker } from "react-color";
 import { Button, Paper } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
-import APIMock from "../mainUI/APIMock";
 
 export default class EditorComponent extends Component {
   constructor(props) {
@@ -26,6 +25,7 @@ export default class EditorComponent extends Component {
     this.setState({
       tag: tag
     });
+    this.props.onUpdated();
   };
 
   deleteTag = (e, i) => {
@@ -34,6 +34,7 @@ export default class EditorComponent extends Component {
     this.setState({
       tag: tag
     });
+    this.props.onUpdated();
   };
 
   addTag = e => {
@@ -42,14 +43,22 @@ export default class EditorComponent extends Component {
     this.setState({
       tag: tag
     });
+    this.props.onUpdated();
   };
 
   onTitleChanged = e => {
     this.setState({ title: e.target.value });
+    this.props.onUpdated();
   };
 
   onColorChanged = e => {
     this.setState({ color: e.hex.split("#")[1] });
+    this.props.onUpdated();
+  };
+
+  onTextChanged = e => {
+    this.setState({ text: e.target.value });
+    this.props.onUpdated();
   };
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -61,11 +70,7 @@ export default class EditorComponent extends Component {
 
   render() {
     return (
-      <div
-        onClick={e => {
-          e.stopPropagation();
-        }}
-      >
+      <div onClick={e => e.stopPropagation()}>
         <Paper
           style={{
             backgroundColor: "#" + this.state.color,
@@ -87,18 +92,13 @@ export default class EditorComponent extends Component {
           <Textfield
             multiline={true}
             rows={15}
-            type={"text"}
-            onChange={e => {
-              this.setState({ text: e.target.value });
-            }}
+            onChange={this.onTextChanged}
             value={this.state.text}
             fullWidth
           />
-          <div style={{minHeight:'1.4em'}}>
+          <div style={{ minHeight: "1.4em" }}>
             <Button
-              onClick={e => {
-                this.props.onSaveButtonClicked(this.state);
-              }}
+              onClick={e => this.props.onSaveButtonClicked(this.state)}
               style={{ display: "block", float: "right" }}
             >
               <SaveIcon />

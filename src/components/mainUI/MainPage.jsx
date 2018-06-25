@@ -162,8 +162,10 @@ class MainPage extends Component {
     try {
       await APIMock.updateFusen(fusen);
       this.updateFusen(fusen)
+      return true;
     } catch (e) {
       console.log(e);
+      return false;
     }
   };
 
