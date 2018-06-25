@@ -202,7 +202,7 @@ class MainPage extends Component {
         <Switch>
           <Route path="/memo/:id" render={props => {
             return (
-              <AppContext.Provider value={this.state.fusens}>
+              <AppContext.Provider value={this.state.fusens[props.match.params.id]}>
                 <EditorPage saveFusen={this.saveFusen}/>
               </AppContext.Provider>
             );

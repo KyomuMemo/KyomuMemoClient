@@ -5,14 +5,12 @@ import "./App.css";
 import MainPage from "./components/mainUI/MainPage";
 import EditorPage from "./components/editor/EditorPage";
 
-class App extends Component {
-  render() {
-    return (
-      <BrowserRouter>
-        <Route path="/" component={MainPage} />
-      </BrowserRouter>
-    );
-  }
-}
+const App = () => {
+  return (
+    <BrowserRouter>
+      <Route path="/" component={MainPage} />
+    </BrowserRouter>
+  );
+};
 
 export default App;
