@@ -13,26 +13,60 @@ const style = {
     right: 0,
     top: 0,
     zIndex: 2147483647 - 2,
-    padding: "5%"
+    padding: "10%"
   }
 };
 
-const EditorPage = props => {
-  const backTomain = e => {
-    props.history.push("/");
+class EditorPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      updated: false
+    };
+  }
+  updated = () => {
+    this.setState({ updated: true });
   };
-  return (
-    <div style={style.root} onClick={backTomain}>
-      <AppContext.Consumer>
-        {fusens => (
-          <EditorComponent
-            onSaveButtonClicked={props.saveFusen}
-            {...fusens[props.match.params.id]}
-          />
-        )}
-      </AppContext.Consumer>
-    </div>
-  );
-};
+  
+  onSaveButtonClicked = async fusen => {
+    try {
+      const result = await this.props.saveFusen(fusen);
+      if (result) {
+        this.setState({ updated: false });
+      } else {
+        // TODO : エラー表示
+        console.log("error")
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  backTomain = e => {
+    if (this.state.updated) {
+      if (
+        !window.confirm("未保存のデータがあります。本当に戻っていいですか？")
+      ) {
+        return;
+      }
+    }
+    this.props.history.push("/");
+  };
+  render() {
+    return (
+      <div style={style.root} onClick={this.backTomain}>
+        <AppContext.Consumer>
+          {fusens => (
+            <EditorComponent
+              onSaveButtonClicked={this.onSaveButtonClicked}
+              onUpdated={this.updated}
+              {...fusens[this.props.match.params.id]}
+            />
+          )}
+        </AppContext.Consumer>
+      </div>
+    );
+  }
+}
 
 export default withRouter(EditorPage);
