@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 import { DragDropContext } from "react-dnd";
 import HTML5Backend from "react-dnd-html5-backend";
-import { withRouter } from "react-router-dom";
+import { withRouter, Route, Switch } from "react-router-dom";
 import SearchBarComponent from "./SearchBarComponent";
 import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
 import APIMock from "./APIMock";
 import ContentsArea from "./ContentsArea";
 import DeleteArea from "./DeleteArea";
 import SearchResultArea from "../search/SerachResultArea";
+import AppContext from "./AppContext";
+import EditorPage from "../editor/EditorPage";
+import FusenComponent from "./FusenComponent";
 
 const styles = {
   mainPage: {
@@ -20,6 +23,7 @@ const styles = {
     backgroundColor: "#eee"
   }
 };
+
 
 class MainPage extends Component {
   constructor(props) {
@@ -98,7 +102,6 @@ class MainPage extends Component {
       const initialPosition = { top: 0, left: 0 };
       positionsCopy[fusen.fusenID] = initialPosition;
     }
-
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
   }
 
@@ -144,8 +147,7 @@ class MainPage extends Component {
 
   openFusen = fusenID => {
     this.props.history.push({
-      pathname: "/editor",
-      state: { fusen: this.state.fusens[fusenID] }
+      pathname: "/memo/" + fusenID,
     });
   };
 
@@ -154,6 +156,15 @@ class MainPage extends Component {
     const searchWords = searchStr.split(/\s+/); //スペース区切りで配列化
     const isSearch = searchStr !== "";
     this.setState({ searchWords: searchWords, isSearch: isSearch });
+  };
+
+  saveFusen = async fusen => {
+    try {
+      await APIMock.updateFusen(fusen);
+      this.updateFusen(fusen)
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   render() {
@@ -186,6 +197,15 @@ class MainPage extends Component {
 
         <CreateFusenButtonComponent createFusen={this.createFusen} />
         <DeleteArea deleteFusen={this.deleteFusen} />
+        <Switch>
+          <Route path="/memo/:id" render={props => {
+            return (
+              <AppContext.Provider value={this.state.fusens}>
+                <EditorPage saveFusen={this.saveFusen}/>
+              </AppContext.Provider>
+            );
+          }}/>
+        </Switch>
       </div>
     );
   }

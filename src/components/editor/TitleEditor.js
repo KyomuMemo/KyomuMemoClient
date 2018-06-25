@@ -13,6 +13,12 @@ export default class TitleEditor extends React.Component {
     this.setState({ title: e.target.value });
     this.props.onTitleChanged(e);
   };
+  static getDerivedStateFromProps(nextProps,prevState){
+    if(prevState.title === undefined){
+      return nextProps;
+    }
+    return null;
+  }
   render() {
     return (
       <TextField

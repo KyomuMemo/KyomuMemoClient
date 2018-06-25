@@ -9,12 +9,7 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        <Grid container spacing={0}>
-          <Grid item xs={12}>
-            <Route path="/main" component={MainPage} />
-            <Route path="/editor" component={EditorPage} />
-          </Grid>
-        </Grid>
+        <Route path="/" component={MainPage} />
       </BrowserRouter>
     );
   }

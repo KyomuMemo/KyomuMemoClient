@@ -63,6 +63,7 @@ class APIMock {
           reject();
         } else {
           this.fusens[i] = fusen;
+          resolve();
         }
       }, 100);
     });
