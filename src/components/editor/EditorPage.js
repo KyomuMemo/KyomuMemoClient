@@ -13,7 +13,7 @@ const style = {
     right: 0,
     top: 0,
     zIndex: 2147483647 - 2,
-    padding: "5%"
+    padding: "10%"
   }
 };
 

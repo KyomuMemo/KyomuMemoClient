@@ -51,9 +51,9 @@ export default class EditorComponent extends Component {
   onColorChanged = e => {
     this.setState({ color: e.hex.split("#")[1] });
   };
-  
-  static getDerivedStateFromProps(nextProps,prevState){
-    if(prevState.fusenID === undefined){
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (prevState.fusenID === undefined) {
       return nextProps;
     }
     return null;
@@ -61,17 +61,18 @@ export default class EditorComponent extends Component {
 
   render() {
     return (
-      <div>
+      <div
+        onClick={e => {
+          e.stopPropagation();
+        }}
+      >
         <Paper
           style={{
             backgroundColor: "#" + this.state.color,
-            padding: "10px",
+            padding: "20px",
             zIndex: 2147483647 - 1
           }}
           elevation={0}
-          onClick={e => {
-            e.stopPropagation();
-          }}
         >
           <TitleComponent
             onTitleChanged={this.onTitleChanged.bind(this)}
@@ -93,18 +94,22 @@ export default class EditorComponent extends Component {
             value={this.state.text}
             fullWidth
           />
-          <TwitterPicker
-            color={this.state.color}
-            onChangeComplete={this.onColorChanged.bind(this)}
-          />
-          <Button
-            onClick={e => {
-              this.props.onSaveButtonClicked(this.state);
-            }}
-          >
-            <SaveIcon />
-          </Button>
+          <div style={{minHeight:'1.4em'}}>
+            <Button
+              onClick={e => {
+                this.props.onSaveButtonClicked(this.state);
+              }}
+              style={{ display: "block", float: "right" }}
+            >
+              <SaveIcon />
+            </Button>
+          </div>
         </Paper>
+
+        <TwitterPicker
+          color={this.state.color}
+          onChangeComplete={this.onColorChanged.bind(this)}
+        />
       </div>
     );
   }

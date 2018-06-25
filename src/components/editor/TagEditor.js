@@ -31,14 +31,15 @@ export default class TagEditor extends React.Component {
       this.state.tag != null ? (
         this.state.tag.map((tag, i, _) => {
           return (
-            <div key={i} style={{ display: "inline" }}>
+            <div key={i} style={{ display: "inline-block" }}>
               <TextField
+                margin={'dense'}
                 value={tag}
                 onChange={e => {
                   this.onChange(e, i);
                 }}
               />
-              <Button onClick={e => this.props.onClickRemoveButton(e, i)}>
+              <Button onClick={e => this.props.onClickRemoveButton(e, i)} size="small">
                 <DeleteIcon />
               </Button>
             </div>
@@ -51,7 +52,13 @@ export default class TagEditor extends React.Component {
     return (
       <div>
         {tags}
-        <Button onClick={this.props.onClickAddButton}>
+        <Button
+          onClick={this.props.onClickAddButton}
+          color={"default"}
+          variant="raised"
+          size="small"
+          style={{float: "right"}}
+        >
           <AddIcon />
         </Button>
       </div>
