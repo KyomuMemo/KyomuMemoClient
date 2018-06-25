@@ -12,7 +12,7 @@ const style = {
     position: "fixed",
     right: 0,
     top: 0,
-    zIndex: 2000,
+    zIndex: 2147483647 - 2,
     padding: "5%"
   }
 };

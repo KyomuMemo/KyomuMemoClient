@@ -66,7 +66,7 @@ export default class EditorComponent extends Component {
           style={{
             backgroundColor: "#" + this.state.color,
             padding: "10px",
-            zIndex: 2010
+            zIndex: 2147483647 - 1
           }}
           elevation={0}
           onClick={e => {
