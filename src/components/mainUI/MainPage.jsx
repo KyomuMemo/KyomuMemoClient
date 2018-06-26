@@ -10,7 +10,7 @@ import DeleteArea from "./DeleteArea";
 import SearchResultArea from "../search/SerachResultArea";
 import AppContext from "./AppContext";
 import EditorPage from "../editor/EditorPage";
-import FusenComponent from "./FusenComponent";
+import AccountPage from "../accounts/AccountPage";
 
 const styles = {
   mainPage: {
@@ -24,7 +24,6 @@ const styles = {
   }
 };
 
-
 class MainPage extends Component {
   constructor(props) {
     super(props);
@@ -33,15 +32,16 @@ class MainPage extends Component {
       fusens: {},
       positions: {},
       isSearch: false,
-      searchWords: []
+      searchWords: [],
+      userID: ""
     };
     this.maxZIndex = 1;
-    this.initState();
+    this.props.history.push("/account")
   }
 
-  async initState() {
+  async initFusen() {
     try {
-      const fusens = await this.getFusensData(this.props.userID);
+      const fusens = await this.getFusensData(this.state.userID);
       const positions = this.initPositions(fusens);
 
       this.setState({
@@ -147,7 +147,7 @@ class MainPage extends Component {
 
   openFusen = fusenID => {
     this.props.history.push({
-      pathname: "/memo/" + fusenID,
+      pathname: "/memo/" + fusenID
     });
   };
 
@@ -161,12 +161,17 @@ class MainPage extends Component {
   saveFusen = async fusen => {
     try {
       await APIMock.updateFusen(fusen);
-      this.updateFusen(fusen)
+      this.updateFusen(fusen);
       return true;
     } catch (e) {
       console.log(e);
       return false;
     }
+  };
+
+  updateAccountID = async id => {
+    this.setState({ userID: id });
+    await this.initFusen();
   };
 
   render() {
@@ -200,13 +205,24 @@ class MainPage extends Component {
         <CreateFusenButtonComponent createFusen={this.createFusen} />
         <DeleteArea deleteFusen={this.deleteFusen} />
         <Switch>
-          <Route path="/memo/:id" render={props => {
-            return (
-              <AppContext.Provider value={this.state.fusens[props.match.params.id]}>
-                <EditorPage saveFusen={this.saveFusen}/>
-              </AppContext.Provider>
-            );
-          }}/>
+          <Route
+            path="/memo/:id"
+            render={props => {
+              return (
+                <AppContext.Provider
+                  value={this.state.fusens[props.match.params.id]}
+                >
+                  <EditorPage saveFusen={this.saveFusen} />
+                </AppContext.Provider>
+              );
+            }}
+          />
+          <Route
+            path="/account"
+            render={_ => {
+              return <AccountPage onAccountIDUpdate={this.updateAccountID} />;
+            }}
+          />
         </Switch>
       </div>
     );

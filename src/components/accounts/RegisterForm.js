@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import TextField from "@material-ui/core/TextField";
-import Input from "@material-ui/core/Input";
-import Button from "@material-ui/core/Button";
+import { Paper, Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import AccountAPIClient from "../../client/AccountAPIClient"
 
 export default class RegisterFormCompoent extends React.Component {
   constructor(props) {
@@ -10,9 +9,16 @@ export default class RegisterFormCompoent extends React.Component {
     this.state = { username: "" };
   }
   // mock
-  handleSubmit = event => {
-    console.log(this.state.username);
+  handleSubmit = async event => {
     event.preventDefault();
+    const response = await AccountAPIClient.SendAccountCreateRequest(
+      this.state.username
+    );
+    if (response.result == "ok") {
+      this.props.onAccountIDUpdate(response.userID);
+    } else {
+      console.log("ng");
+    }
   };
   handleChange = name => event => {
     this.setState({
@@ -22,17 +28,28 @@ export default class RegisterFormCompoent extends React.Component {
   render() {
     return (
       <div className="login-page">
-        <form onSubmit={this.handleSubmit}>
-          <TextField
-            label="username"
-            value={this.state.username}
-            onChange={this.handleChange("username")}
-          />
-          <Button variant="contained" type={"submit"}>
-            アカウント作成
-          </Button>
-        </form>
-        <Link to={"/account/login"}>ログインページへ</Link>
+        <Paper
+          style={{
+            backgroundColor: "#" + this.state.color,
+            padding: "20px",
+            zIndex: 2147483647 - 1
+          }}
+          elevation={0}
+          onClick={e => e.stopPropagation()}
+        >
+          <Typography variant="display2" gutterBottom>
+            Fusen Memo Service
+          </Typography>
+          <form onSubmit={this.handleSubmit} style={{ marginBottom: "1em" }}>
+            <TextField
+              label="username"
+              value={this.state.username}
+              onChange={this.handleChange("username")}
+            />
+            <Button type={"submit"}>アカウント作成</Button>
+          </form>
+          <Link to={"/account/login"}>ログインページへ</Link>
+        </Paper>
       </div>
     );
   }
