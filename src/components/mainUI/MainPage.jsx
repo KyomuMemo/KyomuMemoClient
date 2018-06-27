@@ -4,13 +4,13 @@ import HTML5Backend from "react-dnd-html5-backend";
 import { withRouter, Route, Switch } from "react-router-dom";
 import SearchBarComponent from "./SearchBarComponent";
 import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
-import APIMock from "./APIMock";
 import ContentsArea from "./ContentsArea";
 import DeleteArea from "./DeleteArea";
 import SearchResultArea from "../search/SerachResultArea";
 import AppContext from "./AppContext";
 import EditorPage from "../editor/EditorPage";
 import AccountPage from "../accounts/AccountPage";
+import FusenAPIClient from "../../client/FusenAPIClient";
 
 const styles = {
   mainPage: {
@@ -36,33 +36,38 @@ class MainPage extends Component {
       userID: ""
     };
     this.maxZIndex = 1;
-    this.props.history.push("/account")
+    this.props.history.push("/account");
   }
 
   async initFusen() {
     try {
       const fusens = await this.getFusensData(this.state.userID);
       const positions = this.initPositions(fusens);
-
+      
       this.setState({
         fusens: fusens,
         positions: positions
       });
     } catch (e) {
-      console.log("取得失敗"); //TODO: エラー表示
+      console.log(e); //TODO: エラー表示
     }
   }
 
   async getFusensData(userID) {
-    //mock APIからは配列が返ってくる
-    const fusenArray = await APIMock.getAllFusen(this.props.userID);
-
-    //fusenIDをキーに持つオブジェクトに変換
-    let fusenObj = {};
-    fusenArray.forEach(fusen => {
-      fusenObj[fusen.fusenID] = fusen;
-    });
-    return fusenObj;
+    const response = await FusenAPIClient.sendFusenGetRequest(
+      this.state.userID,
+      0
+    );
+    if (response.result === "ok") {
+      let fusenObj = {};
+      response.fusens.forEach(fusen => {
+        fusenObj[fusen.fusenID] = fusen;
+      });
+      return fusenObj;
+    } else {
+      console.log("error:");
+      return {};
+    }
   }
 
   initPositions(fusens) {
@@ -107,8 +112,15 @@ class MainPage extends Component {
 
   createFusen = async () => {
     try {
-      const fusen = await APIMock.createFusen(this.props.userID);
-      this.updateFusen(fusen);
+      const response = await FusenAPIClient.sendFusenCreateRequest(
+        this.state.userID,
+        0
+      );
+      if (response.result === "ok") {
+        this.updateFusen(response.fusen);
+      } else {
+        console.log("作成失敗");
+      }
       //TODO:詳細画面に遷移したほうがいい？
     } catch (e) {
       console.log("作成失敗"); //TODO:エラー表示
@@ -125,7 +137,10 @@ class MainPage extends Component {
     delete positionsCopy[fusenID];
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
 
-    await APIMock.deleteFusen(this.props.userID, fusenID).catch(e => {
+    await FusenAPIClient.sendFusenDeleteRequest(
+      this.state.userID,
+      fusenID
+    ).catch(e => {
       //削除失敗時に復元
       fusensCopy[fusenID] = deletedFusen;
       positionsCopy[fusenID] = deletedPosition;
@@ -141,7 +156,6 @@ class MainPage extends Component {
       top: toY,
       zIndex: this.maxZIndex++
     };
-
     this.setState({ positions: positionsCopy });
   };
 
@@ -160,7 +174,7 @@ class MainPage extends Component {
 
   saveFusen = async fusen => {
     try {
-      await APIMock.updateFusen(fusen);
+      await FusenAPIClient.sendFusenUpdateRequest(this.state.userID, fusen);
       this.updateFusen(fusen);
       return true;
     } catch (e) {
