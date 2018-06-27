@@ -44,7 +44,7 @@ export default class LoginFormCompoent extends React.Component {
               value={this.state.username}
               onChange={this.handleChange("username")}
             />
-            <Button variant="" type={"submit"}>
+            <Button type={"submit"}>
               ログイン
             </Button>
           </form>
