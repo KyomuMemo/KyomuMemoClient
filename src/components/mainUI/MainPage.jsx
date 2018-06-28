@@ -56,7 +56,7 @@ class MainPage extends Component {
         positions: positions
       });
     } catch (e) {
-      console.log(e); //TODO: エラー表示
+      this.showNotification("error", "付箋の初期化に失敗しました。");
     }
   }
 
@@ -72,7 +72,7 @@ class MainPage extends Component {
       });
       return fusenObj;
     } else {
-      console.log("error:");
+      this.showNotification("error", "付箋の取得に失敗しました。");
       return {};
     }
   }
@@ -126,11 +126,11 @@ class MainPage extends Component {
       if (response.result === "ok") {
         this.updateFusen(response.fusen);
       } else {
-        console.log("作成失敗");
+        this.showNotification("error", "付箋の作成に失敗しました。");
       }
       //TODO:詳細画面に遷移したほうがいい？
     } catch (e) {
-      console.log("作成失敗"); //TODO:エラー表示
+      this.showNotification("error", "付箋の作成に失敗しました。");
     }
   };
 
@@ -152,7 +152,7 @@ class MainPage extends Component {
       fusensCopy[fusenID] = deletedFusen;
       positionsCopy[fusenID] = deletedPosition;
       this.setState({ fusens: fusensCopy, positions: positionsCopy });
-      console.log("削除失敗"); //TODO:エラー表示
+      this.showNotification("error", "付箋の削除に失敗しました。");
     });
   };
 
@@ -185,7 +185,7 @@ class MainPage extends Component {
       this.updateFusen(fusen);
       return true;
     } catch (e) {
-      console.log(e);
+      this.showNotification("error", "付箋の保存に失敗しました。");
       return false;
     }
   };
@@ -258,7 +258,12 @@ class MainPage extends Component {
           <Route
             path="/account"
             render={_ => {
-              return <AccountPage onAccountIDUpdate={this.updateAccountID} />;
+              return (
+                <AccountPage
+                  onAccountIDUpdate={this.updateAccountID}
+                  showNotification={this.showNotification}
+                />
+              );
             }}
           />
         </Switch>

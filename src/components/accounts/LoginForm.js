@@ -14,8 +14,9 @@ export default class LoginFormCompoent extends React.Component {
     const response = await AccountAPIClient.SendAccountLoginRequest(this.state.username);
     if(response.result == "ok"){
       this.props.onAccountIDUpdate(response.userID)
+      this.props.showNotification("success", "ログインしました。");
     } else {
-      console.log("ng")
+      this.props.showNotification("error", "ログインに失敗しました。"); //TODO:分かりやすいメッセージ
     }
   };
   handleChange = name => event => {

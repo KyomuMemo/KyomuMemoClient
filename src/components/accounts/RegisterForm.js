@@ -16,8 +16,12 @@ export default class RegisterFormCompoent extends React.Component {
     );
     if (response.result == "ok") {
       this.props.onAccountIDUpdate(response.userID);
+      this.props.showNotification(
+        "success",
+        "新しいユーザとしてログインしました。"
+      );
     } else {
-      console.log("ng");
+      this.props.showNotification("error", "ユーザ登録に失敗しました。"); //TODO: 分かりやすいメッセージ
     }
   };
   handleChange = name => event => {
