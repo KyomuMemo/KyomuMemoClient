@@ -11,6 +11,7 @@ import AppContext from "./AppContext";
 import EditorPage from "../editor/EditorPage";
 import AccountPage from "../accounts/AccountPage";
 import FusenAPIClient from "../../client/FusenAPIClient";
+import Notification from "./Notification";
 
 const styles = {
   mainPage: {
@@ -33,7 +34,13 @@ class MainPage extends Component {
       positions: {},
       isSearch: false,
       searchWords: [],
-      userID: ""
+      userID: "",
+      notificationData: {
+        variant: "",
+        message: "",
+        key: Math.random()
+      },
+      notificationOpen: false
     };
     this.maxZIndex = 1;
     this.props.history.push("/account");
@@ -188,6 +195,18 @@ class MainPage extends Component {
     await this.initFusen();
   };
 
+  showNotification = (variant = "success", message = "") => {
+    const key = Math.random();
+    this.setState({
+      notificationOpen: true,
+      notificationData: { variant: variant, message: message, key: key }
+    });
+  };
+
+  closeNotification = () => {
+    this.setState({ notificationOpen: false });
+  };
+
   render() {
     const searchResultArea = (
       <SearchResultArea
@@ -218,6 +237,11 @@ class MainPage extends Component {
 
         <CreateFusenButtonComponent createFusen={this.createFusen} />
         <DeleteArea deleteFusen={this.deleteFusen} />
+        <Notification
+          closeNotification={this.closeNotification}
+          open={this.state.notificationOpen}
+          notificationData={this.state.notificationData}
+        />
         <Switch>
           <Route
             path="/memo/:id"
