@@ -50,7 +50,7 @@ class MainPage extends Component {
     try {
       const fusens = await this.getFusensData(this.state.userID);
       const positions = this.initPositions(fusens);
-      
+
       this.setState({
         fusens: fusens,
         positions: positions

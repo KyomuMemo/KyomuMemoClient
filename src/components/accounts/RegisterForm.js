@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Paper, Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import AccountAPIClient from "../../client/AccountAPIClient"
+import AccountAPIClient from "../../client/AccountAPIClient";
 
 export default class RegisterFormCompoent extends React.Component {
   constructor(props) {
