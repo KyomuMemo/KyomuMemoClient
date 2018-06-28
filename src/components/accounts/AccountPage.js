@@ -25,8 +25,8 @@ class AccountPage extends Component {
   }
   onAccountIDUpdate = async id => {
     await this.props.onAccountIDUpdate(id);
-    this.props.history.push("/")
-  }
+    this.props.history.push("/");
+  };
   render() {
     return (
       <div style={style.root}>
@@ -34,7 +34,10 @@ class AccountPage extends Component {
           <Route
             path="/account/login"
             render={props => (
-              <LoginFormCompoent onAccountIDUpdate={this.onAccountIDUpdate} />
+              <LoginFormCompoent
+                onAccountIDUpdate={this.onAccountIDUpdate}
+                showNotification={this.props.showNotification}
+              />
             )}
           />
           <Route
@@ -42,6 +45,7 @@ class AccountPage extends Component {
             render={props => (
               <RegisterFormCompoent
                 onAccountIDUpdate={this.onAccountIDUpdate}
+                showNotification={this.props.showNotification}
               />
             )}
           />

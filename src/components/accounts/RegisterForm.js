@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Paper, Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import AccountAPIClient from "../../client/AccountAPIClient"
+import AccountAPIClient from "../../client/AccountAPIClient";
 
 export default class RegisterFormCompoent extends React.Component {
   constructor(props) {
@@ -16,8 +16,12 @@ export default class RegisterFormCompoent extends React.Component {
     );
     if (response.result == "ok") {
       this.props.onAccountIDUpdate(response.userID);
+      this.props.showNotification(
+        "success",
+        "新しいユーザとしてログインしました。"
+      );
     } else {
-      console.log("ng");
+      this.props.showNotification("error", "ユーザ登録に失敗しました。"); //TODO: 分かりやすいメッセージ
     }
   };
   handleChange = name => event => {

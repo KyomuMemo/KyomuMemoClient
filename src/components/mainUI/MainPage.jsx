@@ -11,6 +11,7 @@ import AppContext from "./AppContext";
 import EditorPage from "../editor/EditorPage";
 import AccountPage from "../accounts/AccountPage";
 import FusenAPIClient from "../../client/FusenAPIClient";
+import Notification from "./Notification";
 
 const styles = {
   mainPage: {
@@ -33,24 +34,26 @@ class MainPage extends Component {
       positions: {},
       isSearch: false,
       searchWords: [],
-      userID: ""
+      userID: "",
+      notificationData: {
+        variant: "",
+        message: "",
+        key: Math.random()
+      },
+      notificationOpen: false
     };
     this.maxZIndex = 1;
     this.props.history.push("/account");
   }
 
   async initFusen() {
-    try {
-      const fusens = await this.getFusensData(this.state.userID);
-      const positions = this.initPositions(fusens);
-      
-      this.setState({
-        fusens: fusens,
-        positions: positions
-      });
-    } catch (e) {
-      console.log(e); //TODO: エラー表示
-    }
+    const fusens = await this.getFusensData(this.state.userID);
+    const positions = this.initPositions(fusens);
+
+    this.setState({
+      fusens: fusens,
+      positions: positions
+    });
   }
 
   async getFusensData(userID) {
@@ -60,12 +63,12 @@ class MainPage extends Component {
     );
     if (response.result === "ok") {
       let fusenObj = {};
-      response.fusens.forEach(fusen => {
+      response.fusen.forEach(fusen => {
         fusenObj[fusen.fusenID] = fusen;
       });
       return fusenObj;
     } else {
-      console.log("error:");
+      this.showNotification("error", "付箋の取得に失敗しました。");
       return {};
     }
   }
@@ -109,22 +112,18 @@ class MainPage extends Component {
     }
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
   }
-
   createFusen = async () => {
-    try {
-      const response = await FusenAPIClient.sendFusenCreateRequest(
-        this.state.userID,
-        0
-      );
-      if (response.result === "ok") {
-        this.updateFusen(response.fusen);
-      } else {
-        console.log("作成失敗");
-      }
-      //TODO:詳細画面に遷移したほうがいい？
-    } catch (e) {
-      console.log("作成失敗"); //TODO:エラー表示
+    const response = await FusenAPIClient.sendFusenCreateRequest(
+      this.state.userID,
+      0
+    );
+
+    if (response.result === "ok") {
+      this.updateFusen(response.fusen);
+    } else {
+      this.showNotification("error", "付箋の作成に失敗しました。");
     }
+    //TODO:詳細画面に遷移したほうがいい？
   };
 
   deleteFusen = async fusenID => {
@@ -137,16 +136,22 @@ class MainPage extends Component {
     delete positionsCopy[fusenID];
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
 
-    await FusenAPIClient.sendFusenDeleteRequest(
+    const response = await FusenAPIClient.sendFusenDeleteRequest(
       this.state.userID,
       fusenID
-    ).catch(e => {
-      //削除失敗時に復元
-      fusensCopy[fusenID] = deletedFusen;
-      positionsCopy[fusenID] = deletedPosition;
-      this.setState({ fusens: fusensCopy, positions: positionsCopy });
-      console.log("削除失敗"); //TODO:エラー表示
-    });
+    );
+
+    if (response.result !== "ok") {
+      this.showNotification("error", "付箋の削除に失敗しました。");
+
+      //fusensCopyを再利用するとthis.setStateが即座に反映されないためコピーを作成
+      const fusensCopy2 = Object.assign({}, fusensCopy);
+      const positionsCopy2 = Object.assign({}, positionsCopy);
+
+      fusensCopy2[fusenID] = deletedFusen;
+      positionsCopy2[fusenID] = deletedPosition;
+      this.setState({ fusens: fusensCopy2, positions: positionsCopy2 });
+    }
   };
 
   moveFusen = (fusenID, toX, toY) => {
@@ -173,12 +178,15 @@ class MainPage extends Component {
   };
 
   saveFusen = async fusen => {
-    try {
-      await FusenAPIClient.sendFusenUpdateRequest(this.state.userID, fusen);
+    const response = await FusenAPIClient.sendFusenUpdateRequest(
+      this.state.userID,
+      fusen
+    );
+    if (response.result === "ok") {
       this.updateFusen(fusen);
       return true;
-    } catch (e) {
-      console.log(e);
+    } else {
+      this.showNotification("error", "付箋の保存に失敗しました。");
       return false;
     }
   };
@@ -186,6 +194,18 @@ class MainPage extends Component {
   updateAccountID = async id => {
     this.setState({ userID: id });
     await this.initFusen();
+  };
+
+  showNotification = (variant = "success", message = "") => {
+    const key = Math.random();
+    this.setState({
+      notificationOpen: true,
+      notificationData: { variant: variant, message: message, key: key }
+    });
+  };
+
+  closeNotification = () => {
+    this.setState({ notificationOpen: false });
   };
 
   render() {
@@ -218,6 +238,11 @@ class MainPage extends Component {
 
         <CreateFusenButtonComponent createFusen={this.createFusen} />
         <DeleteArea deleteFusen={this.deleteFusen} />
+        <Notification
+          closeNotification={this.closeNotification}
+          open={this.state.notificationOpen}
+          notificationData={this.state.notificationData}
+        />
         <Switch>
           <Route
             path="/memo/:id"
@@ -234,7 +259,12 @@ class MainPage extends Component {
           <Route
             path="/account"
             render={_ => {
-              return <AccountPage onAccountIDUpdate={this.updateAccountID} />;
+              return (
+                <AccountPage
+                  onAccountIDUpdate={this.updateAccountID}
+                  showNotification={this.showNotification}
+                />
+              );
             }}
           />
         </Switch>

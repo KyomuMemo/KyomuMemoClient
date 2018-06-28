@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Paper, Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import AccountAPIClient from "../../client/AccountAPIClient"
+import AccountAPIClient from "../../client/AccountAPIClient";
 
 export default class LoginFormCompoent extends React.Component {
   constructor(props) {
@@ -11,11 +11,14 @@ export default class LoginFormCompoent extends React.Component {
   // mock
   handleSubmit = async event => {
     event.preventDefault();
-    const response = await AccountAPIClient.SendAccountLoginRequest(this.state.username);
-    if(response.result == "ok"){
-      this.props.onAccountIDUpdate(response.userID)
+    const response = await AccountAPIClient.SendAccountLoginRequest(
+      this.state.username
+    );
+    if (response.result == "ok") {
+      this.props.onAccountIDUpdate(response.userID);
+      this.props.showNotification("success", "ログインしました。");
     } else {
-      console.log("ng")
+      this.props.showNotification("error", "ログインに失敗しました。"); //TODO:分かりやすいメッセージ
     }
   };
   handleChange = name => event => {
@@ -38,15 +41,13 @@ export default class LoginFormCompoent extends React.Component {
           <Typography variant="display2" gutterBottom>
             Fusen Memo Service
           </Typography>
-          <form onSubmit={this.handleSubmit} style={{marginBottom: "1em"}}>
+          <form onSubmit={this.handleSubmit} style={{ marginBottom: "1em" }}>
             <TextField
               label="username"
               value={this.state.username}
               onChange={this.handleChange("username")}
             />
-            <Button type={"submit"}>
-              ログイン
-            </Button>
+            <Button type={"submit"}>ログイン</Button>
           </form>
           <Link to={"/account/register"}>アカウント作成ページへ</Link>
         </Paper>
