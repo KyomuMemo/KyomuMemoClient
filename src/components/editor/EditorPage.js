@@ -27,19 +27,10 @@ class EditorPage extends React.Component {
   updated = () => {
     this.setState({ updated: true });
   };
-  
+
   onSaveButtonClicked = async fusen => {
-    try {
-      const result = await this.props.saveFusen(fusen);
-      if (result) {
-        this.setState({ updated: false });
-      } else {
-        // TODO : エラー表示
-        console.log("error")
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    const result = await this.props.saveFusen(fusen);
+    if (result) this.setState({ updated: false });
   };
 
   backTomain = e => {

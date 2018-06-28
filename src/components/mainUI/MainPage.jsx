@@ -47,17 +47,13 @@ class MainPage extends Component {
   }
 
   async initFusen() {
-    try {
-      const fusens = await this.getFusensData(this.state.userID);
-      const positions = this.initPositions(fusens);
+    const fusens = await this.getFusensData(this.state.userID);
+    const positions = this.initPositions(fusens);
 
-      this.setState({
-        fusens: fusens,
-        positions: positions
-      });
-    } catch (e) {
-      this.showNotification("error", "付箋の初期化に失敗しました。");
-    }
+    this.setState({
+      fusens: fusens,
+      positions: positions
+    });
   }
 
   async getFusensData(userID) {
@@ -116,22 +112,18 @@ class MainPage extends Component {
     }
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
   }
-
   createFusen = async () => {
-    try {
-      const response = await FusenAPIClient.sendFusenCreateRequest(
-        this.state.userID,
-        0
-      );
-      if (response.result === "ok") {
-        this.updateFusen(response.fusen);
-      } else {
-        this.showNotification("error", "付箋の作成に失敗しました。");
-      }
-      //TODO:詳細画面に遷移したほうがいい？
-    } catch (e) {
+    const response = await FusenAPIClient.sendFusenCreateRequest(
+      this.state.userID,
+      0
+    );
+
+    if (response.result === "ok") {
+      this.updateFusen(response.fusen);
+    } else {
       this.showNotification("error", "付箋の作成に失敗しました。");
     }
+    //TODO:詳細画面に遷移したほうがいい？
   };
 
   deleteFusen = async fusenID => {
@@ -144,16 +136,22 @@ class MainPage extends Component {
     delete positionsCopy[fusenID];
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
 
-    await FusenAPIClient.sendFusenDeleteRequest(
+    const response = await FusenAPIClient.sendFusenDeleteRequest(
       this.state.userID,
       fusenID
-    ).catch(e => {
-      //削除失敗時に復元
-      fusensCopy[fusenID] = deletedFusen;
-      positionsCopy[fusenID] = deletedPosition;
-      this.setState({ fusens: fusensCopy, positions: positionsCopy });
+    );
+
+    if (response.result !== "ok") {
       this.showNotification("error", "付箋の削除に失敗しました。");
-    });
+
+      //fusensCopyを再利用するとthis.setStateが即座に反映されないためコピーを作成
+      const fusensCopy2 = Object.assign({}, fusensCopy);
+      const positionsCopy2 = Object.assign({}, positionsCopy);
+
+      fusensCopy2[fusenID] = deletedFusen;
+      positionsCopy2[fusenID] = deletedPosition;
+      this.setState({ fusens: fusensCopy2, positions: positionsCopy2 });
+    }
   };
 
   moveFusen = (fusenID, toX, toY) => {
@@ -180,11 +178,14 @@ class MainPage extends Component {
   };
 
   saveFusen = async fusen => {
-    try {
-      await FusenAPIClient.sendFusenUpdateRequest(this.state.userID, fusen);
+    const response = await FusenAPIClient.sendFusenUpdateRequest(
+      this.state.userID,
+      fusen
+    );
+    if (response.result === "ok") {
       this.updateFusen(fusen);
       return true;
-    } catch (e) {
+    } else {
       this.showNotification("error", "付箋の保存に失敗しました。");
       return false;
     }
