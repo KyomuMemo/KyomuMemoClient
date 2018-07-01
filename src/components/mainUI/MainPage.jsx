@@ -109,7 +109,7 @@ class MainPage extends Component {
     fusensCopy[fusen.fusenID] = fusen;
     //新しい付箋なら初期位置に配置
     if (!positionsCopy.hasOwnProperty(fusen.fusenID)) {
-      const initialPosition = { top: 0, left: 0 };
+      const initialPosition = { top: 0, left: 0, zIndex: this.maxZIndex++ };
       positionsCopy[fusen.fusenID] = initialPosition;
     }
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
