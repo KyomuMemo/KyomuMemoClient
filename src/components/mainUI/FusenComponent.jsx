@@ -56,14 +56,17 @@ const FusenComponent = props => {
 
   return (
     <div style={styles.fusen}>
-      <Card style={{ backgroundColor: `#${fusen.color}`, minHeight: 100 }}>
+      <Card style={{ backgroundColor: `#${fusen.color}` }}>
         <IconButton
           style={styles.deleteButton}
           onClick={() => deleteFusen(fusen.fusenID)}
         >
           <DeleteIcon style={styles.deleteIcon} />
         </IconButton>
-        <CardContent onClick={() => openFusen(fusen.fusenID)}>
+        <CardContent
+          onClick={() => openFusen(fusen.fusenID)}
+          style={{ minHeight: 60 }}
+        >
           <Typography variant="title" style={styles.title}>
             <Highlighter
               autoEscape={true}
