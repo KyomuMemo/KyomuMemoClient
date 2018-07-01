@@ -40,7 +40,8 @@ class MainPage extends Component {
         message: "",
         key: Math.random()
       },
-      notificationOpen: false
+      notificationOpen: false,
+      isInit: false
     };
     this.maxZIndex = 1;
     this.props.history.push("/account");
@@ -52,7 +53,8 @@ class MainPage extends Component {
 
     this.setState({
       fusens: fusens,
-      positions: positions
+      positions: positions,
+      isInit: true
     });
   }
 
@@ -226,6 +228,7 @@ class MainPage extends Component {
         positions={this.state.positions}
         deleteFusen={this.deleteFusen}
         openFusen={this.openFusen}
+        isInit={this.state.isInit}
       />
     );
 

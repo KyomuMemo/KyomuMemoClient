@@ -4,6 +4,7 @@ import { ItemTypes } from "./Constants";
 import FusenComponent from "./FusenComponent";
 import DragWrapper from "./DragWrapper";
 import DragFusenLayer from "./DragFusenLayer";
+import Typography from "@material-ui/core/Typography";
 
 const contentTarget = {
   drop(props, monitor, component) {
@@ -45,14 +46,26 @@ class ContentsArea extends Component {
       fusens,
       positions,
       deleteFusen,
-      openFusen
+      openFusen,
+      isInit
     } = this.props;
+
+    const shouldShowNoFusens = isInit && Object.keys(fusens).length === 0;
+    const noFusens = (
+      <Typography
+        color="textSecondary"
+        style={{ textAlign: "center", marginTop: 16 }}
+      >
+        付箋はまだ一つも作られていません。右下の+ボタンから新しい付箋を作成しましょう。
+      </Typography>
+    );
 
     return connectDropTarget(
       <div
         className={"contentsArea"}
         style={{ height: "100%", width: "100%", position: "relative" }}
       >
+        {shouldShowNoFusens ? noFusens : null}
         {Object.keys(fusens).map((id, index) => (
           <DragWrapper fusenID={id} position={positions[id]} key={id}>
             <FusenComponent
