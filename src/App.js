@@ -1,9 +1,6 @@
-import React, { Component } from "react";
-import { BrowserRouter, Link, Route } from "react-router-dom";
-import { Grid } from "@material-ui/core";
-import "./App.css";
+import React from "react";
+import { BrowserRouter, Route } from "react-router-dom";
 import MainPage from "./components/mainUI/MainPage";
-import EditorPage from "./components/editor/EditorPage";
 
 const App = () => {
   return (
