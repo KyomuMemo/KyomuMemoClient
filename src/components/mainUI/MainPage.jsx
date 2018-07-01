@@ -120,10 +120,10 @@ class MainPage extends Component {
 
     if (response.result === "ok") {
       this.updateFusen(response.fusen);
+      this.openFusen(response.fusen.fusenID);
     } else {
       this.showNotification("error", "付箋の作成に失敗しました。");
     }
-    //TODO:詳細画面に遷移したほうがいい？
   };
 
   deleteFusen = async fusenID => {
