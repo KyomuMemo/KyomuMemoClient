@@ -40,16 +40,16 @@ class EditorPage extends React.Component {
         return;
       }
     }
-    this.props.history.push("/");
+    this.props.history.push(this.props.isSearch ? "/search" : "/home");
   };
   render() {
     return (
       <div style={style.root} onClick={this.backTomain}>
-          <EditorComponent
-            onSaveButtonClicked={this.onSaveButtonClicked}
-            onUpdated={this.updated}
-            {...this.props.fusen}
-          />
+        <EditorComponent
+          onSaveButtonClicked={this.onSaveButtonClicked}
+          onUpdated={this.updated}
+          {...this.props.fusen}
+        />
       </div>
     );
   }

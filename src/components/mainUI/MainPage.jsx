@@ -34,13 +34,14 @@ class MainPage extends Component {
       isSearch: false,
       searchWords: [],
       userID: "",
-      loggedIn: false,
+      userName: "",
       notificationData: {
         variant: "",
         message: "",
         key: Math.random()
       },
-      notificationOpen: false
+      notificationOpen: false,
+      isInit: false
     };
     this.maxZIndex = 1;
     this.props.history.push("/account");
@@ -52,7 +53,8 @@ class MainPage extends Component {
 
     this.setState({
       fusens: fusens,
-      positions: positions
+      positions: positions,
+      isInit: true
     });
   }
 
@@ -107,11 +109,12 @@ class MainPage extends Component {
     fusensCopy[fusen.fusenID] = fusen;
     //新しい付箋なら初期位置に配置
     if (!positionsCopy.hasOwnProperty(fusen.fusenID)) {
-      const initialPosition = { top: 0, left: 0 };
+      const initialPosition = { top: 0, left: 0, zIndex: this.maxZIndex++ };
       positionsCopy[fusen.fusenID] = initialPosition;
     }
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
   }
+
   createFusen = async () => {
     const response = await FusenAPIClient.sendFusenCreateRequest(
       this.state.userID,
@@ -120,10 +123,10 @@ class MainPage extends Component {
 
     if (response.result === "ok") {
       this.updateFusen(response.fusen);
+      this.openFusen(response.fusen.fusenID);
     } else {
       this.showNotification("error", "付箋の作成に失敗しました。");
     }
-    //TODO:詳細画面に遷移したほうがいい？
   };
 
   deleteFusen = async fusenID => {
@@ -175,6 +178,7 @@ class MainPage extends Component {
     const searchWords = searchStr.split(/\s+/); //スペース区切りで配列化
     const isSearch = searchStr !== "";
     this.setState({ searchWords: searchWords, isSearch: isSearch });
+    this.props.history.push(isSearch ? "/search" : "home");
   };
 
   saveFusen = async fusen => {
@@ -191,9 +195,9 @@ class MainPage extends Component {
     }
   };
 
-  updateAccountID = async id => {
-    this.setState({ loggedIn: true, userID: id });
-    await this.initFusen();
+  updateAccountID = (id, userName) => {
+    this.setState({ userID: id, userName: userName });
+    this.initFusen();
   };
 
   showNotification = (variant = "success", message = "") => {
@@ -225,6 +229,7 @@ class MainPage extends Component {
         positions={this.state.positions}
         deleteFusen={this.deleteFusen}
         openFusen={this.openFusen}
+        isInit={this.state.isInit}
       />
     );
 
@@ -233,10 +238,9 @@ class MainPage extends Component {
         <SearchBarComponent
           updateSearchState={this.updateSearchState}
           isSearch={this.state.isSearch}
+          userName={this.state.userName}
         />
         {this.state.isSearch ? searchResultArea : contentsArea}
-        {this.state.loggedIn ? <CreateFusenButtonComponent createFusen={this.createFusen} /> : null}
-        <DeleteArea deleteFusen={this.deleteFusen} />
         <Notification
           closeNotification={this.closeNotification}
           open={this.state.notificationOpen}
@@ -249,6 +253,7 @@ class MainPage extends Component {
               <EditorPage
                 saveFusen={this.saveFusen}
                 fusen={this.state.fusens[props.match.params.id]}
+                isSearch={this.state.isSearch}
               />
             )}
           />
@@ -259,6 +264,21 @@ class MainPage extends Component {
                 onAccountIDUpdate={this.updateAccountID}
                 showNotification={this.showNotification}
               />
+            )}
+          />
+          <Route
+            path="/home"
+            render={_ => (
+              <div>
+                <CreateFusenButtonComponent createFusen={this.createFusen} />
+                <DeleteArea deleteFusen={this.deleteFusen} />
+              </div>
+            )}
+          />
+          <Route
+            path="/search"
+            render={_ => (
+              <CreateFusenButtonComponent createFusen={this.createFusen} />
             )}
           />
         </Switch>

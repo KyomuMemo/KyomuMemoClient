@@ -19,9 +19,7 @@ class AccountAPIClient {
   }
   static async SendAccountLoginRequest(AccountName) {
     try {
-      const result = await axios.get(
-        url + "account/" + AccountName + "/getid"
-      );
+      const result = await axios.get(url + "account/" + AccountName + "/getid");
       return { result: "ok", userID: result.data["userID"] };
     } catch (e) {
       if (e.response !== undefined) {

@@ -23,7 +23,7 @@ class APIMock {
       }, 100);
     });
   }
-  
+
   static createFusen(userID) {
     const fusen = {
       userID: userID,

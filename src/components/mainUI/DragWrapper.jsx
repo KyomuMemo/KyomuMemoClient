@@ -3,6 +3,18 @@ import { DragSource } from "react-dnd";
 import { ItemTypes } from "./Constants";
 import Fade from "@material-ui/core/Fade";
 
+const styles = {
+  wrapper: (position, isDragging) => ({
+    position: "absolute",
+    height: "auto",
+    width: "auto",
+    top: `calc(${position.top} * 100%)`,
+    left: `calc(${position.left} * 100%)`,
+    zIndex: position.zIndex,
+    visibility: isDragging ? "hidden" : "visible"
+  })
+};
+
 const fusenSource = {
   beginDrag(props, monitor, component) {
     return { fusenID: props.fusenID };
@@ -31,17 +43,7 @@ class DragWrapper extends Component {
     const { connectDragSource, isDragging, position, children } = this.props;
 
     return connectDragSource(
-      <div
-        style={{
-          position: "absolute",
-          height: "auto",
-          width: "auto",
-          top: `calc(${position.top} * 100%)`,
-          left: `calc(${position.left} * 100%)`,
-          zIndex: position.zIndex,
-          visibility: isDragging ? "hidden" : "visible"
-        }}
-      >
+      <div style={styles.wrapper(position, isDragging)}>
         <Fade in={true}>
           <div>{children}</div>
         </Fade>

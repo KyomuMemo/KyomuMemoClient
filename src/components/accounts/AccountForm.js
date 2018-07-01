@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  Paper,
-  Button,
-  TextField,
-  Typography
-} from "@material-ui/core";
+import { Paper, Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AccountAPIClient from "../../client/AccountAPIClient";
 
@@ -50,7 +45,7 @@ export default class AccountFormCompoent extends React.Component {
       this.state.username
     );
     if (response.result === "ok") {
-      this.props.onAccountIDUpdate(response.userID);
+      this.props.onAccountIDUpdate(response.userID, this.state.username);
       this.props.showNotification(
         "success",
         variables[this.props.type].success
