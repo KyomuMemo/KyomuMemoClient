@@ -7,7 +7,6 @@ import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
 import ContentsArea from "./ContentsArea";
 import DeleteArea from "./DeleteArea";
 import SearchResultArea from "../search/SerachResultArea";
-import AppContext from "./AppContext";
 import EditorPage from "../editor/EditorPage";
 import AccountPage from "../accounts/AccountPage";
 import FusenAPIClient from "../../client/FusenAPIClient";
@@ -246,26 +245,21 @@ class MainPage extends Component {
         <Switch>
           <Route
             path="/memo/:id"
-            render={props => {
-              return (
-                <AppContext.Provider
-                  value={this.state.fusens[props.match.params.id]}
-                >
-                  <EditorPage saveFusen={this.saveFusen} />
-                </AppContext.Provider>
-              );
-            }}
+            render={props => (
+              <EditorPage
+                saveFusen={this.saveFusen}
+                fusen={this.state.fusens[props.match.params.id]}
+              />
+            )}
           />
           <Route
             path="/account"
-            render={_ => {
-              return (
-                <AccountPage
-                  onAccountIDUpdate={this.updateAccountID}
-                  showNotification={this.showNotification}
-                />
-              );
-            }}
+            render={_ => (
+              <AccountPage
+                onAccountIDUpdate={this.updateAccountID}
+                showNotification={this.showNotification}
+              />
+            )}
           />
         </Switch>
       </div>
