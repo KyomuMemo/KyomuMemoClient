@@ -10,7 +10,7 @@ class AccountAPIClient {
       );
       return { result: "ok", userID: result.data["userID"] };
     } catch (e) {
-      if (e.response != undefined) {
+      if (e.response !== undefined) {
         return Object.assign({ result: "ng" }, e.response.data);
       } else {
         return { result: "ng", message: e.toString() };
@@ -24,7 +24,7 @@ class AccountAPIClient {
       );
       return { result: "ok", userID: result.data["userID"] };
     } catch (e) {
-      if (e.response != undefined) {
+      if (e.response !== undefined) {
         return Object.assign({ result: "ng" }, e.response.data);
       } else {
         return { result: "ng", message: e.toString() };

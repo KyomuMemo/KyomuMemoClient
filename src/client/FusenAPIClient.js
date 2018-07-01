@@ -9,7 +9,7 @@ class FusenAPIClient {
       );
       return { result: "ok", fusen: result.data };
     } catch (e) {
-      if (e.reponse != undefined) {
+      if (e.reponse !== undefined) {
         return Object.assign({ result: "ng" }, { content: e.response.data });
       } else {
         return { result: "ng", message: "system error" };
@@ -27,7 +27,7 @@ class FusenAPIClient {
       });
       return { result: "ok", fusen: result.data };
     } catch (e) {
-      if (e.reponse != undefined) {
+      if (e.reponse !== undefined) {
         return Object.assign({ result: "ng" }, e.response.data);
       } else {
         return { result: "ng", message: "system error" };
@@ -40,7 +40,7 @@ class FusenAPIClient {
       await axios.get(url + "memo/" + accountID + "/" + fusenID + "/delete");
       return { result: "ok" };
     } catch (e) {
-      if (e.reponse != undefined) {
+      if (e.reponse !== undefined) {
         return Object.assign({ result: "ng" }, e.response.data);
       } else {
         return { result: "ng", message: "system error" };
@@ -54,7 +54,7 @@ class FusenAPIClient {
       );
       return { result: "ok", fusens: result.data };
     } catch (e) {
-      if (e.reponse != undefined) {
+      if (e.reponse !== undefined) {
         return Object.assign({ result: "ng" }, e.response.data);
       } else {
         return { result: "ng", message: "system error" };

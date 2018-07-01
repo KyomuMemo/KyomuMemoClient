@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React from "react";
 import EditorComponent from "./EditorComponent";
-import AppContext from "../mainUI/AppContext";
-import { withRouter, Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 const style = {
   root: {
@@ -46,15 +45,11 @@ class EditorPage extends React.Component {
   render() {
     return (
       <div style={style.root} onClick={this.backTomain}>
-        <AppContext.Consumer>
-          {fusen => (
-            <EditorComponent
-              onSaveButtonClicked={this.onSaveButtonClicked}
-              onUpdated={this.updated}
-              {...fusen}
-            />
-          )}
-        </AppContext.Consumer>
+          <EditorComponent
+            onSaveButtonClicked={this.onSaveButtonClicked}
+            onUpdated={this.updated}
+            {...this.props.fusen}
+          />
       </div>
     );
   }
