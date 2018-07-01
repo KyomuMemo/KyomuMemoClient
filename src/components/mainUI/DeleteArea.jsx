@@ -30,7 +30,7 @@ class DeleteArea extends Component {
           position: "absolute",
           bottom: 0,
           left: 0,
-          zIndex: 2147483647, //max
+          zIndex: 2147483647 - 1,
           pointerEvents: canDrop ? "auto" : "none"
         }}
       >

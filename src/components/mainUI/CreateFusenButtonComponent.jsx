@@ -7,7 +7,7 @@ class CreateFusenButtonComponent extends Component {
     position: "fixed",
     bottom: 16,
     right: 16,
-    zIndex: 2147483647
+    zIndex: 2147483647 - 1
   };
 
   render() {

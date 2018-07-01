@@ -50,7 +50,7 @@ class DragFusenLayer extends React.Component {
           position: "relative",
           transform: `translate(${this.x}px, ${this.y}px)`,
           opacity: 0.9,
-          zIndex: 2147483646, //max-1
+          zIndex: 2147483647 - 2,
           pointerEvents: "none"
         }}
       >
