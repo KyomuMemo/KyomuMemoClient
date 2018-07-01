@@ -64,7 +64,7 @@ class MainPage extends Component {
     );
     if (response.result === "ok") {
       let fusenObj = {};
-      response.fusen.forEach(fusen => {
+      response.fusens.forEach(fusen => {
         fusenObj[fusen.fusenID] = fusen;
       });
       return fusenObj;
