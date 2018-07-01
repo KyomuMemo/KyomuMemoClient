@@ -12,6 +12,9 @@ const styles = {
     width: 240,
     cursor: "pointer"
   },
+  card: color => ({
+    backgroundColor: color === "" ? "#fff" : `#${color}`
+  }),
   deleteButton: {
     position: "absolute",
     height: 32,
@@ -56,7 +59,7 @@ const FusenComponent = props => {
 
   return (
     <div style={styles.fusen}>
-      <Card style={{ backgroundColor: `#${fusen.color}` }}>
+      <Card style={styles.card(fusen.color)}>
         <IconButton
           style={styles.deleteButton}
           onClick={() => deleteFusen(fusen.fusenID)}
