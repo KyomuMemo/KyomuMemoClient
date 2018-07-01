@@ -35,6 +35,7 @@ class MainPage extends Component {
       isSearch: false,
       searchWords: [],
       userID: "",
+      loggedIn: false,
       notificationData: {
         variant: "",
         message: "",
@@ -192,7 +193,7 @@ class MainPage extends Component {
   };
 
   updateAccountID = async id => {
-    this.setState({ userID: id });
+    this.setState({ loggedIn: true, userID: id });
     await this.initFusen();
   };
 
@@ -235,8 +236,7 @@ class MainPage extends Component {
           isSearch={this.state.isSearch}
         />
         {this.state.isSearch ? searchResultArea : contentsArea}
-
-        <CreateFusenButtonComponent createFusen={this.createFusen} />
+        {this.state.loggedIn ? <CreateFusenButtonComponent createFusen={this.createFusen} /> : null}
         <DeleteArea deleteFusen={this.deleteFusen} />
         <Notification
           closeNotification={this.closeNotification}
