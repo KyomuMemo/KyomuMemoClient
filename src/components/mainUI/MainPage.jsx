@@ -175,6 +175,7 @@ class MainPage extends Component {
     const searchWords = searchStr.split(/\s+/); //スペース区切りで配列化
     const isSearch = searchStr !== "";
     this.setState({ searchWords: searchWords, isSearch: isSearch });
+    this.props.history.push(isSearch ? "/search" : "home");
   };
 
   saveFusen = async fusen => {
@@ -249,6 +250,7 @@ class MainPage extends Component {
               <EditorPage
                 saveFusen={this.saveFusen}
                 fusen={this.state.fusens[props.match.params.id]}
+                isSearch={this.state.isSearch}
               />
             )}
           />

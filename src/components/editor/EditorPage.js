@@ -40,7 +40,7 @@ class EditorPage extends React.Component {
         return;
       }
     }
-    this.props.history.push("/");
+    this.props.history.push(this.props.isSearch ? "/search" : "/home");
   };
   render() {
     return (

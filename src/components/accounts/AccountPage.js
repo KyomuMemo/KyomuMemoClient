@@ -23,7 +23,7 @@ class AccountPage extends Component {
   }
   onAccountIDUpdate = async id => {
     await this.props.onAccountIDUpdate(id);
-    this.props.history.push("/");
+    this.props.history.push("/home");
   };
   render() {
     const form = type => (
