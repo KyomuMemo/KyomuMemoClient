@@ -3,9 +3,7 @@ import {
   Paper,
   Button,
   TextField,
-  Typography,
-  Input,
-  InputAdornment
+  Typography
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AccountAPIClient from "../../client/AccountAPIClient";
