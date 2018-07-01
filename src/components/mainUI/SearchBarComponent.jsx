@@ -8,6 +8,10 @@ const styles = {
     margin: "0 auto",
     width: "80%",
     maxWidth: 800
+  },
+  userName: {
+    position: "absolute",
+    right: 30
   }
 };
 
@@ -27,12 +31,13 @@ class SearchBarComponent extends Component {
   };
 
   render() {
-    const { isSearch } = this.props;
+    const { isSearch, userName } = this.props;
 
     return (
       <div style={{ height: "auto" }}>
         <AppBar style={{ position: "relative" }}>
           <Toolbar>
+            <span style={styles.userName}>{userName}</span>
             <SearchBar
               onChange={this.handleChange}
               onRequestSearch={this.handleRequestSearch}

@@ -21,8 +21,8 @@ class AccountPage extends Component {
     // 初回時はLoginページに飛ぶ
     this.props.history.push("/account/login");
   }
-  onAccountIDUpdate = async id => {
-    await this.props.onAccountIDUpdate(id);
+  onAccountIDUpdate = async (id, userName) => {
+    await this.props.onAccountIDUpdate(id, userName);
     this.props.history.push("/home");
   };
   render() {

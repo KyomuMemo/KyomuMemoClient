@@ -34,6 +34,7 @@ class MainPage extends Component {
       isSearch: false,
       searchWords: [],
       userID: "",
+      userName: "",
       notificationData: {
         variant: "",
         message: "",
@@ -191,8 +192,8 @@ class MainPage extends Component {
     }
   };
 
-  updateAccountID = async id => {
-    this.setState({ userID: id });
+  updateAccountID = async (id, userName) => {
+    this.setState({ userID: id, userName: userName });
     await this.initFusen();
   };
 
@@ -233,6 +234,7 @@ class MainPage extends Component {
         <SearchBarComponent
           updateSearchState={this.updateSearchState}
           isSearch={this.state.isSearch}
+          userName={this.state.userName}
         />
         {this.state.isSearch ? searchResultArea : contentsArea}
         <Notification
