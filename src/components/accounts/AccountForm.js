@@ -49,7 +49,7 @@ export default class AccountFormCompoent extends React.Component {
     const response = await variables[this.props.type].request(
       this.state.username
     );
-    if (response.result == "ok") {
+    if (response.result === "ok") {
       this.props.onAccountIDUpdate(response.userID);
       this.props.showNotification(
         "success",
