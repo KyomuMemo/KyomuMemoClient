@@ -22,8 +22,7 @@ class FusenAPIClient {
       const result = await axios({
         method: "post",
         url: url + "memo/" + accountID + "/" + fusenData.fusenID + "/update",
-        data: JSON.stringify(fusenData),
-        
+        data: JSON.stringify(fusenData)
       });
       return { result: "ok", fusen: result.data };
     } catch (e) {

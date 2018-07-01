@@ -3,8 +3,8 @@ import { FormControl, Input } from "@material-ui/core";
 
 const style = {
   input: {
-    fontSize:"40px",
-    fontWeight: 600,
+    fontSize: "40px",
+    fontWeight: 600
   }
 };
 

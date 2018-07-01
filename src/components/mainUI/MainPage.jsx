@@ -114,6 +114,7 @@ class MainPage extends Component {
     }
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
   }
+
   createFusen = async () => {
     const response = await FusenAPIClient.sendFusenCreateRequest(
       this.state.userID,
