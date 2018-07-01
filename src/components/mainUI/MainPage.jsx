@@ -192,9 +192,9 @@ class MainPage extends Component {
     }
   };
 
-  updateAccountID = async (id, userName) => {
+  updateAccountID = (id, userName) => {
     this.setState({ userID: id, userName: userName });
-    await this.initFusen();
+    this.initFusen();
   };
 
   showNotification = (variant = "success", message = "") => {
