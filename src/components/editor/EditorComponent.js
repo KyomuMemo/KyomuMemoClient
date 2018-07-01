@@ -5,6 +5,17 @@ import TitleComponent from "./TitleEditor";
 import { TwitterPicker } from "react-color";
 import { Button, Paper } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
+import {
+  red,
+  pink,
+  purple,
+  orange,
+  yellow,
+  lime,
+  green,
+  cyan,
+  blue
+} from "@material-ui/core/colors";
 
 const style = {
   paper: color => ({
@@ -130,6 +141,18 @@ export default class EditorComponent extends Component {
           <TwitterPicker
             color={this.state.color}
             onChangeComplete={this.onColorChanged.bind(this)}
+            colors={[
+              red["A100"],
+              pink["A100"],
+              purple["A100"],
+              orange["A100"],
+              yellow["A100"],
+              lime["A100"],
+              green["A100"],
+              cyan["A100"],
+              blue["A100"],
+              "#fff"
+            ]}
           />
         </div>
       </div>
