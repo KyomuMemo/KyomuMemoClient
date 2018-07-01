@@ -34,7 +34,6 @@ class MainPage extends Component {
       isSearch: false,
       searchWords: [],
       userID: "",
-      loggedIn: false,
       notificationData: {
         variant: "",
         message: "",
@@ -193,7 +192,7 @@ class MainPage extends Component {
   };
 
   updateAccountID = async id => {
-    this.setState({ loggedIn: true, userID: id });
+    this.setState({ userID: id });
     await this.initFusen();
   };
 
@@ -236,8 +235,6 @@ class MainPage extends Component {
           isSearch={this.state.isSearch}
         />
         {this.state.isSearch ? searchResultArea : contentsArea}
-        {this.state.loggedIn ? <CreateFusenButtonComponent createFusen={this.createFusen} /> : null}
-        <DeleteArea deleteFusen={this.deleteFusen} />
         <Notification
           closeNotification={this.closeNotification}
           open={this.state.notificationOpen}
@@ -261,6 +258,21 @@ class MainPage extends Component {
                 onAccountIDUpdate={this.updateAccountID}
                 showNotification={this.showNotification}
               />
+            )}
+          />
+          <Route
+            path="/home"
+            render={_ => (
+              <div>
+                <CreateFusenButtonComponent createFusen={this.createFusen} />
+                <DeleteArea deleteFusen={this.deleteFusen} />
+              </div>
+            )}
+          />
+          <Route
+            path="/search"
+            render={_ => (
+              <CreateFusenButtonComponent createFusen={this.createFusen} />
             )}
           />
         </Switch>
