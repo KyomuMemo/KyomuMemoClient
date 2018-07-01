@@ -6,6 +6,27 @@ import { TwitterPicker } from "react-color";
 import { Button, Paper } from "@material-ui/core";
 import SaveIcon from "@material-ui/icons/Save";
 
+const style = {
+  paper: color => ({
+    backgroundColor: "#" + color,
+    padding: "20px",
+    zIndex: 2147483647 - 1
+  }),
+  savebutton: {
+    div: {
+      minHeight: "1.5em",
+      margin: "0.5em"
+    },
+    button: {
+      display: "block",
+      float: "right"
+    }
+  },
+  picker: {
+    display: "inline-block"
+  }
+};
+
 export default class EditorComponent extends Component {
   constructor(props) {
     super(props);
@@ -72,11 +93,7 @@ export default class EditorComponent extends Component {
     return (
       <div>
         <Paper
-          style={{
-            backgroundColor: "#" + this.state.color,
-            padding: "20px",
-            zIndex: 2147483647 - 1
-          }}
+          style={style.paper(this.state.color)}
           elevation={0}
           onClick={e => e.stopPropagation()}
         >
@@ -98,10 +115,10 @@ export default class EditorComponent extends Component {
             placeholder={"text"}
             fullWidth
           />
-          <div style={{ minHeight: "1.5em", margin: "0.5em" }}>
+          <div style={style.savebutton.div}>
             <Button
               onClick={e => this.props.onSaveButtonClicked(this.state)}
-              style={{ display: "block", float: "right" }}
+              style={style.savebutton.button}
               variant="contained"
               size={"small"}
             >
@@ -109,10 +126,7 @@ export default class EditorComponent extends Component {
             </Button>
           </div>
         </Paper>
-        <div
-          style={{ display: "inline-block" }}
-          onClick={e => e.stopPropagation()}
-        >
+        <div style={style.picker} onClick={e => e.stopPropagation()}>
           <TwitterPicker
             color={this.state.color}
             onChangeComplete={this.onColorChanged.bind(this)}
