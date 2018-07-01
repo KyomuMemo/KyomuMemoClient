@@ -235,9 +235,6 @@ class MainPage extends Component {
           isSearch={this.state.isSearch}
         />
         {this.state.isSearch ? searchResultArea : contentsArea}
-
-        <CreateFusenButtonComponent createFusen={this.createFusen} />
-        <DeleteArea deleteFusen={this.deleteFusen} />
         <Notification
           closeNotification={this.closeNotification}
           open={this.state.notificationOpen}
@@ -266,6 +263,15 @@ class MainPage extends Component {
                 />
               );
             }}
+          />
+          <Route
+            peth="/"
+            render={() => (
+              <div>
+                <DeleteArea deleteFusen={this.deleteFusen} />
+                <CreateFusenButtonComponent createFusen={this.createFusen} />
+              </div>
+            )}
           />
         </Switch>
       </div>
