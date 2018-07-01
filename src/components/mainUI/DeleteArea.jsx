@@ -4,6 +4,25 @@ import { ItemTypes } from "./Constants";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Fade from "@material-ui/core/Fade";
 
+const styles = {
+  deleteArea: canDrop => ({
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    zIndex: 2147483647 - 1,
+    pointerEvents: canDrop ? "auto" : "none"
+  }),
+  deleteIcon: (isOver, canDrop) => ({
+    fontSize: 56,
+    position: "absolute",
+    bottom: 16,
+    left: 16,
+    fill: "#e00",
+    filter: isOver ? "drop-shadow(0px 0px 20px rgba(249, 0, 0, 1))" : "",
+    opacity: isOver ? 1 : canDrop ? 0.4 : 0
+  })
+};
+
 const deleteTarget = {
   drop(props, monitor, component) {
     const item = monitor.getItem();
@@ -24,30 +43,9 @@ class DeleteArea extends Component {
     const { connectDropTarget, isOver, canDrop } = this.props;
 
     return connectDropTarget(
-      <div
-        className={"deleteArea"}
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          zIndex: 2147483647 - 1,
-          pointerEvents: canDrop ? "auto" : "none"
-        }}
-      >
+      <div className={"deleteArea"} style={styles.deleteArea(canDrop)}>
         <Fade in={canDrop}>
-          <DeleteIcon
-            style={{
-              fontSize: 56,
-              position: "absolute",
-              bottom: 16,
-              left: 16,
-              fill: "#e00",
-              filter: isOver
-                ? "drop-shadow(0px 0px 20px rgba(249, 0, 0, 1))"
-                : "",
-              opacity: isOver ? 1 : canDrop ? 0.4 : 0
-            }}
-          />
+          <DeleteIcon style={styles.deleteIcon(isOver, canDrop)} />
         </Fade>
       </div>
     );

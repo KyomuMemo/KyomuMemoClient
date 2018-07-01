@@ -4,6 +4,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 import SearchBar from "material-ui-search-bar";
 
 const styles = {
+  div: {
+    height: "auto"
+  },
+  appBer: {
+    position: "relative"
+  },
   searchBar: {
     margin: "0 auto",
     width: "80%",
@@ -34,8 +40,8 @@ class SearchBarComponent extends Component {
     const { isSearch, userName } = this.props;
 
     return (
-      <div style={{ height: "auto" }}>
-        <AppBar style={{ position: "relative" }}>
+      <div style={styles.div}>
+        <AppBar style={styles.appBer}>
           <Toolbar>
             <span style={styles.userName}>{userName}</span>
             <SearchBar

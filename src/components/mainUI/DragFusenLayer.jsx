@@ -3,6 +3,26 @@ import { DragLayer } from "react-dnd";
 import FusenComponent from "./FusenComponent";
 import Fade from "@material-ui/core/Fade";
 
+const styles = {
+  shadow: {
+    position: "absolute",
+    width: "100%",
+    height: "100%",
+    boxShadow: "0px 0px 20px rgba(0,0,0,0.4)"
+  },
+  dragLayer: (x, y) => ({
+    display: "inline-block",
+    position: "relative",
+    transform: `translate(${x}px, ${y}px)`,
+    opacity: 0.9,
+    zIndex: 2147483647 - 2,
+    pointerEvents: "none"
+  }),
+  fusenComponent: isDragging => ({
+    opacity: isDragging ? 1 : 0
+  })
+};
+
 function collect(monitor) {
   return {
     item: monitor.getItem(),
@@ -30,32 +50,12 @@ class DragFusenLayer extends React.Component {
       this.x = currentOffset.x - area.offsetLeft - 1;
     }
 
-    const shadow = (
-      <Fade in={isDragging}>
-        <div
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            boxShadow: "0px 0px 20px rgba(0,0,0,0.4)"
-          }}
-        />
-      </Fade>
-    );
-
     return (
-      <div
-        style={{
-          display: "inline-block",
-          position: "relative",
-          transform: `translate(${this.x}px, ${this.y}px)`,
-          opacity: 0.9,
-          zIndex: 2147483647 - 2,
-          pointerEvents: "none"
-        }}
-      >
-        {shadow}
-        <div style={{ opacity: isDragging ? 1 : 0 }}>
+      <div style={styles.dragLayer(this.x, this.y)}>
+        <Fade in={isDragging}>
+          <div style={styles.shadow} />
+        </Fade>
+        <div style={styles.fusenComponent(isDragging)}>
           <FusenComponent
             fusen={this.fusen}
             searchWords={[]}

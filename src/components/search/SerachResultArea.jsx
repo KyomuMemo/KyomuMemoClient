@@ -3,10 +3,15 @@ import StackGrid from "react-stack-grid";
 import FusenComponent from "../mainUI/FusenComponent";
 import Typography from "@material-ui/core/Typography";
 
-const style = {
-  height: "100%",
-  width: "100%",
-  overflowX: "auto"
+const styles = {
+  area: {
+    height: "100%",
+    width: "100%",
+    overflowX: "auto"
+  },
+  stackGrid: {
+    margin: "16px 0px"
+  }
 };
 
 export default class SearchResultArea extends Component {
@@ -55,13 +60,13 @@ export default class SearchResultArea extends Component {
     );
 
     return (
-      <div style={style}>
+      <div style={styles.area}>
         {matchedCount === 0 ? noResult : ""}
         <StackGrid
           columnWidth={240}
           gutterWidth={8}
           gutterHeight={16}
-          style={{ margin: "16px 0px" }}
+          style={styles.stackGrid}
         >
           {matchedFusens}
         </StackGrid>
