@@ -267,6 +267,7 @@ class MainPage extends Component {
                 saveFusen={this.saveFusen}
                 fusen={this.state.fusens[props.match.params.id]}
                 isSearch={this.state.isSearch}
+                showNotification={this.showNotification}
               />
             )}
           />
