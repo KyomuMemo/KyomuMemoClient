@@ -2,6 +2,7 @@ import React from "react";
 import { Paper, Button, TextField, Typography } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import AccountAPIClient from "../../client/AccountAPIClient";
+import { NotificationType } from "../mainUI/Notification";
 
 const style = {
   paper: {
@@ -47,11 +48,11 @@ export default class AccountFormCompoent extends React.Component {
     if (response.result === "ok") {
       this.props.onAccountIDUpdate(response.userID, this.state.username);
       this.props.showNotification(
-        "success",
+        NotificationType.success,
         variables[this.props.type].success
       );
     } else {
-      this.props.showNotification("error", response.message); //TODO:分かりやすいメッセージ
+      this.props.showNotification(NotificationType.error, response.message); //TODO:分かりやすいメッセージ
     }
   };
   handleChange = name => event => {
