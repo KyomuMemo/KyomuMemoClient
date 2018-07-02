@@ -197,6 +197,7 @@ class MainPage extends Component {
     );
     if (response.result === "ok") {
       this.updateFusen(fusen);
+      this.showNotification(NotificationType.success, "付箋を保存しました");
       return true;
     } else {
       this.showNotification(
