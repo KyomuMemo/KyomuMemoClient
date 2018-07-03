@@ -1,13 +1,16 @@
 import axios from "axios";
-import {API_URL} from "../constant";
+import { API_URL } from "../constant";
 
 const url = API_URL;
 
 class AccountAPIClient {
   static async SendAccountCreateRequest(AccountName) {
     try {
-      const result = await axios.get(
-        url + "account/" + AccountName + "/create"
+      const result = await axios.post(
+        url + "account/create",
+        JSON.stringify({
+          userName: AccountName
+        })
       );
       return { result: "ok", userID: result.data["userID"] };
     } catch (e) {
@@ -20,7 +23,12 @@ class AccountAPIClient {
   }
   static async SendAccountLoginRequest(AccountName) {
     try {
-      const result = await axios.get(url + "account/" + AccountName + "/getid");
+      const result = await axios.post(
+        url + "account/getid",
+        JSON.stringify({
+          userName: AccountName
+        })
+      );
       return { result: "ok", userID: result.data["userID"] };
     } catch (e) {
       if (e.response !== undefined) {

@@ -1,13 +1,14 @@
 import axios from "axios";
-import {API_URL} from "../constant";
+import { API_URL } from "../constant";
 
 const url = API_URL;
 
 class FusenAPIClient {
   static async sendFusenCreateRequest(accountID, fusenID) {
     try {
-      const result = await axios.get(
-        url + "memo/" + accountID + "/" + fusenID + "/create"
+      const result = await axios.post(
+        url + "memo/create",
+        JSON.stringify({ userID: accountID })
       );
       return { result: "ok", fusen: result.data };
     } catch (e) {
@@ -23,7 +24,7 @@ class FusenAPIClient {
     try {
       const result = await axios({
         method: "post",
-        url: url + "memo/" + accountID + "/" + fusenData.fusenID + "/update",
+        url: url + "memo/update",
         data: JSON.stringify(fusenData)
       });
       return { result: "ok", fusen: result.data };
@@ -38,7 +39,10 @@ class FusenAPIClient {
 
   static async sendFusenDeleteRequest(accountID, fusenID) {
     try {
-      await axios.get(url + "memo/" + accountID + "/" + fusenID + "/delete");
+      await axios.post(
+        url + "memo/delete",
+        JSON.stringify({ userID: accountID, fusenID: fusenID })
+      );
       return { result: "ok" };
     } catch (e) {
       if (e.reponse !== undefined) {
@@ -50,8 +54,9 @@ class FusenAPIClient {
   }
   static async sendFusenGetRequest(accountID, fusenID) {
     try {
-      const result = await axios.get(
-        url + "memo/" + accountID + "/" + fusenID + "/get"
+      const result = await axios.post(
+        url + "memo/get",
+        JSON.stringify({ userID: accountID })
       );
       return { result: "ok", fusens: result.data };
     } catch (e) {
