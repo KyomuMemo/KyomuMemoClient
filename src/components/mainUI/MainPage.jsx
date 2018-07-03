@@ -10,7 +10,7 @@ import SearchResultArea from "../search/SerachResultArea";
 import EditorPage from "../editor/EditorPage";
 import AccountPage from "../accounts/AccountPage";
 import FusenAPIClient from "../../client/FusenAPIClient";
-import Notification from "./Notification";
+import Notification, { NotificationType } from "./Notification";
 
 const styles = {
   mainPage: {
@@ -70,7 +70,10 @@ class MainPage extends Component {
       });
       return fusenObj;
     } else {
-      this.showNotification("error", "付箋の取得に失敗しました。");
+      this.showNotification(
+        NotificationType.error,
+        "付箋の取得に失敗しました。"
+      );
       return {};
     }
   }
@@ -125,7 +128,10 @@ class MainPage extends Component {
       this.updateFusen(response.fusen);
       this.openFusen(response.fusen.fusenID);
     } else {
-      this.showNotification("error", "付箋の作成に失敗しました。");
+      this.showNotification(
+        NotificationType.error,
+        "付箋の作成に失敗しました。"
+      );
     }
   };
 
@@ -145,7 +151,10 @@ class MainPage extends Component {
     );
 
     if (response.result !== "ok") {
-      this.showNotification("error", "付箋の削除に失敗しました。");
+      this.showNotification(
+        NotificationType.error,
+        "付箋の削除に失敗しました。"
+      );
 
       //fusensCopyを再利用するとthis.setStateが即座に反映されないためコピーを作成
       const fusensCopy2 = Object.assign({}, fusensCopy);
@@ -188,9 +197,13 @@ class MainPage extends Component {
     );
     if (response.result === "ok") {
       this.updateFusen(fusen);
+      this.showNotification(NotificationType.success, "付箋を保存しました");
       return true;
     } else {
-      this.showNotification("error", "付箋の保存に失敗しました。");
+      this.showNotification(
+        NotificationType.error,
+        "付箋の保存に失敗しました。"
+      );
       return false;
     }
   };
@@ -254,6 +267,7 @@ class MainPage extends Component {
                 saveFusen={this.saveFusen}
                 fusen={this.state.fusens[props.match.params.id]}
                 isSearch={this.state.isSearch}
+                showNotification={this.showNotification}
               />
             )}
           />

@@ -82,4 +82,11 @@ const Notification = props => {
   );
 };
 
+export const NotificationType = {
+  success: "success",
+  warning: "warning",
+  error: "error",
+  info: "info"
+};
+
 export default Notification;

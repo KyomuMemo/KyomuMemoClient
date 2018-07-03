@@ -1,6 +1,7 @@
 import React from "react";
 import EditorComponent from "./EditorComponent";
 import { withRouter } from "react-router-dom";
+import { NotificationType } from "../mainUI/Notification";
 
 const style = {
   root: {
@@ -19,6 +20,13 @@ const style = {
 class EditorPage extends React.Component {
   constructor(props) {
     super(props);
+    if (props.fusen === undefined) {
+      this.props.showNotification(
+        NotificationType.error,
+        "指定されたメモが見つかりません"
+      );
+      this.props.history.push(this.props.isSearch ? "/search" : "/home");
+    }
     this.state = {
       updated: false
     };
