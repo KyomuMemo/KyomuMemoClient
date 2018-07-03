@@ -42,7 +42,7 @@ export default class EditorComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: props.userID,
+      userID: props.userID,
       fusenID: props.fusenID,
       title: props.title,
       tag: props.tag,
