@@ -1,6 +1,8 @@
 import axios from "axios";
+import {API_URL} from "../constant";
 
-const url = "http://localhost:2000/";
+const url = API_URL;
+
 class FusenAPIClient {
   static async sendFusenCreateRequest(accountID, fusenID) {
     try {
