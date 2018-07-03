@@ -70,10 +70,7 @@ class MainPage extends Component {
       });
       return fusenObj;
     } else {
-      this.showNotification(
-        NotificationType.error,
-        "付箋の取得に失敗しました。"
-      );
+      this.showNotification(NotificationType.error, response.message);
       return {};
     }
   }
@@ -128,10 +125,7 @@ class MainPage extends Component {
       this.updateFusen(response.fusen);
       this.openFusen(response.fusen.fusenID);
     } else {
-      this.showNotification(
-        NotificationType.error,
-        "付箋の作成に失敗しました。"
-      );
+      this.showNotification(NotificationType.error, response.message);
     }
   };
 
@@ -151,10 +145,7 @@ class MainPage extends Component {
     );
 
     if (response.result !== "ok") {
-      this.showNotification(
-        NotificationType.error,
-        "付箋の削除に失敗しました。"
-      );
+      this.showNotification(NotificationType.error, response.message);
 
       //fusensCopyを再利用するとthis.setStateが即座に反映されないためコピーを作成
       const fusensCopy2 = Object.assign({}, fusensCopy);
@@ -200,10 +191,7 @@ class MainPage extends Component {
       this.showNotification(NotificationType.success, "付箋を保存しました");
       return true;
     } else {
-      this.showNotification(
-        NotificationType.error,
-        "付箋の保存に失敗しました。"
-      );
+      this.showNotification(NotificationType.error, response.message);
       return false;
     }
   };

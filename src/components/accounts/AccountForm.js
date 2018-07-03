@@ -52,7 +52,7 @@ export default class AccountFormCompoent extends React.Component {
         variables[this.props.type].success
       );
     } else {
-      this.props.showNotification(NotificationType.error, response.message); //TODO:分かりやすいメッセージ
+      this.props.showNotification(NotificationType.error, response.message);
     }
   };
   handleChange = name => event => {
