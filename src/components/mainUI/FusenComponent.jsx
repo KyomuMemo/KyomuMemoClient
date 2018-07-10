@@ -10,7 +10,11 @@ const styles = {
   fusen: {
     position: "relative",
     width: 240,
-    cursor: "pointer"
+    cursor: "pointer",
+    WebkitUserSelect: "none",
+    MozUserSelect: "none",
+    MsUserSelect: "none",
+    UserSelect: "none"
   },
   card: color => ({
     backgroundColor: color === "" ? "#fff" : `#${color}`
