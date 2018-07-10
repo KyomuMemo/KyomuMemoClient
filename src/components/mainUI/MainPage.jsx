@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { DragDropContext } from "react-dnd";
-import HTML5Backend from 'react-dnd-html5-backend';
-import TouchBackend from 'react-dnd-touch-backend';
+import TouchBackend from "react-dnd-touch-backend";
 import { withRouter, Route, Switch } from "react-router-dom";
 import SearchBarComponent from "./SearchBarComponent";
 import CreateFusenButtonComponent from "./CreateFusenButtonComponent";
@@ -290,4 +289,6 @@ class MainPage extends Component {
   }
 }
 
-export default withRouter(DragDropContext(TouchBackend({ enableMouseEvents: true }))(MainPage));
+export default withRouter(
+  DragDropContext(TouchBackend({ enableMouseEvents: true }))(MainPage)
+);
