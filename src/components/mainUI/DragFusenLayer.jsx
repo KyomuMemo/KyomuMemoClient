@@ -45,7 +45,7 @@ class DragFusenLayer extends React.Component {
     if (this.fusen.fusenID === undefined) return null;
 
     if (currentOffset) {
-      const area = document.getElementsByClassName("contentsArea")[0];
+      const area = document.getElementsByClassName("areaContainer")[0];
       this.y = currentOffset.y - area.offsetTop - 1;
       this.x = currentOffset.x - area.offsetLeft - 1;
     }

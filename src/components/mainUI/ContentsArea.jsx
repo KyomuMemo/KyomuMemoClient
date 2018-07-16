@@ -22,7 +22,7 @@ const contentTarget = {
   drop(props, monitor, component) {
     const fusen = monitor.getItem();
 
-    const area = document.getElementsByClassName("contentsArea")[0];
+    const area = document.getElementsByClassName("areaContainer")[0];
     const width = area.clientWidth;
     const height = area.clientHeight;
     const boxWidth = 240;

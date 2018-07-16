@@ -21,6 +21,10 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     backgroundColor: "#eee"
+  },
+  areaContainer: {
+    height: "100%",
+    width: "100%"
   }
 };
 
@@ -75,27 +79,35 @@ class MainPage extends Component {
     }
   }
 
+  getRandomPosition() {
+    const area = document.getElementsByClassName("areaContainer")[0] || {};
+    const areaWidth = area.clientWidth || 1920;
+    const areaHeight = area.clientHeight || 1024;
+    const boxWidth = 240;
+    const boxHeight = 100;
+
+    const calcPosition = (areaSize, boxSize) => {
+      let x = Math.random();
+      if (boxSize > areaSize) return x;
+
+      const isInArea = x * areaSize + boxSize < areaSize;
+      return isInArea ? x : calcPosition(areaSize, boxSize);
+    };
+
+    return {
+      x: calcPosition(areaWidth, boxWidth),
+      y: calcPosition(areaHeight, boxHeight)
+    };
+  }
+
   initPositions(fusens) {
     let positions = {};
 
-    const getRandomPosition = (areaWidth, boxWidth) => {
-      let x = Math.random();
-      if (boxWidth > areaWidth) return x;
-
-      const isInArea = x * areaWidth + boxWidth < areaWidth;
-      return isInArea ? x : getRandomPosition(areaWidth, boxWidth);
-    };
-
     Object.keys(fusens).forEach(id => {
-      const area = document.getElementsByClassName("contentsArea")[0] || {};
-      const areaWidth = area.clientWidth || 1920;
-      const areaHeight = area.clientHeight || 1024;
-      const boxWidth = 240;
-      const boxHeight = 100;
-
+      const position = this.getRandomPosition();
       positions[id] = {
-        top: getRandomPosition(areaHeight, boxHeight),
-        left: getRandomPosition(areaWidth, boxWidth),
+        top: position.y,
+        left: position.x,
         zIndex: 0
       };
     });
@@ -109,7 +121,12 @@ class MainPage extends Component {
     fusensCopy[fusen.fusenID] = fusen;
     //新しい付箋なら初期位置に配置
     if (!positionsCopy.hasOwnProperty(fusen.fusenID)) {
-      const initialPosition = { top: 0, left: 0, zIndex: this.maxZIndex++ };
+      const position = this.getRandomPosition();
+      const initialPosition = {
+        top: position.y,
+        left: position.x,
+        zIndex: this.maxZIndex++
+      };
       positionsCopy[fusen.fusenID] = initialPosition;
     }
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
@@ -241,7 +258,9 @@ class MainPage extends Component {
           isSearch={this.state.isSearch}
           userName={this.state.userName}
         />
-        {this.state.isSearch ? searchResultArea : contentsArea}
+        <div className="areaContainer" style={styles.areaContainer}>
+          {this.state.isSearch ? searchResultArea : contentsArea}
+        </div>
         <Notification
           closeNotification={this.closeNotification}
           open={this.state.notificationOpen}
