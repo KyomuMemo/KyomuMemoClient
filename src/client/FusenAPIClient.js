@@ -5,10 +5,10 @@ const url = API_URL;
 
 class FusenAPIClient {
   /**
-   *  M6.1 付箋作成処理
-   *  付箋の作成リクエストを送信する
-   *  @param {string} accountID アカウントID
-   *  @return {Object} 成功/失敗，成功時は付箋データ 失敗時はエラーメッセージ
+   * M6.1 付箋作成処理
+   * 付箋の作成リクエストを送信する
+   * @param {string} accountID アカウントID
+   * @return {Object} 成功/失敗，成功時は付箋データ 失敗時はエラーメッセージ
    */
   static async sendFusenCreateRequest(accountID) {
     try {
@@ -27,10 +27,10 @@ class FusenAPIClient {
   }
 
   /**
-   *  M6.2 付箋更新処理
-   *  付箋の更新リクエストを送信する
-   *  @param {Object} fusenData 更新する付箋のデータ
-   *  @return {Object} 成功/失敗，成功時は付箋データ 失敗時はエラーメッセージ
+   * M6.2 付箋更新処理
+   * 付箋の更新リクエストを送信する
+   * @param {Object} fusenData 更新する付箋のデータ
+   * @return {Object} 成功/失敗，成功時は付箋データ 失敗時はエラーメッセージ
    */
   static async sendFusenUpdateRequest(fusenData) {
     try {
@@ -50,11 +50,11 @@ class FusenAPIClient {
   }
 
   /**
-   *  M6.3 付箋削除処理
-   *  付箋の削除リクエストを送信する
-   *  @param {string} accountID アカウントID
-   *  @param {string} fusenID 削除する付箋のID
-   *  @return {Object} 成功/失敗，失敗時はエラーメッセージ
+   * M6.3 付箋削除処理
+   * 付箋の削除リクエストを送信する
+   * @param {string} accountID アカウントID
+   * @param {string} fusenID 削除する付箋のID
+   * @return {Object} 成功/失敗，失敗時はエラーメッセージ
    */
   static async sendFusenDeleteRequest(accountID, fusenID) {
     try {
@@ -73,10 +73,10 @@ class FusenAPIClient {
   }
 
   /**
-   *  M3.1 付箋要求処理
-   *  付箋の取得リクエストを送信する
-   *  @param {string} accountID アカウントID
-   *  @return {Object} 成功/失敗，全付箋が格納された配列
+   * M3.1 付箋要求処理
+   * 付箋の取得リクエストを送信する
+   * @param {string} accountID アカウントID
+   * @return {Object} 成功/失敗，全付箋が格納された配列
    */
   static async sendFusenGetRequest(accountID) {
     try {
