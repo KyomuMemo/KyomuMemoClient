@@ -19,6 +19,9 @@ const styles = {
 };
 
 const contentTarget = {
+  /**
+   *  付箋をドロップしたとき，mainUIの付箋移動処理を呼び出す
+   */
   drop(props, monitor, component) {
     const fusen = monitor.getItem();
 
@@ -51,6 +54,10 @@ function collect(connect, monitor) {
   };
 }
 
+/**
+ * コンテンツエリア
+ * 非検索時に全付箋を表示する領域
+ */
 class ContentsArea extends Component {
   render() {
     const {

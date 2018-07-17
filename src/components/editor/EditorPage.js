@@ -17,6 +17,12 @@ const style = {
   }
 };
 
+/**
+ * エディタページ
+ * エディタコンポーネントを表示するページ
+ * 編集画面の外をクリックすると前のページに戻る
+ * 編集された付箋が未保存のまま戻ろうとすると警告を表示する
+ */
 class EditorPage extends React.Component {
   constructor(props) {
     super(props);

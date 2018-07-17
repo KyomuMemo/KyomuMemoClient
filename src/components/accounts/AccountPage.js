@@ -16,6 +16,10 @@ const style = {
   }
 };
 
+/**
+ * アカウントページ
+ * アカウント作成/ログインフォームを表示するページ
+ */
 class AccountPage extends Component {
   componentDidMount() {
     // 初回時はLoginページに飛ぶ

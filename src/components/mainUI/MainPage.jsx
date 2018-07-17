@@ -28,6 +28,10 @@ const styles = {
   }
 };
 
+/**
+ * メインページ
+ * アプリケーション全体の親となるコンポーネント
+ */
 class MainPage extends Component {
   constructor(props) {
     super(props);
@@ -51,8 +55,12 @@ class MainPage extends Component {
     this.props.history.push("/account");
   }
 
+  /**
+   * 付箋の初期化を行う
+   * ログイン直後に一度だけ呼び出される
+   */
   async initFusen() {
-    const fusens = await this.getFusensData(this.state.userID);
+    const fusens = await this.getFusensData();
     const positions = this.initPositions(fusens);
 
     this.setState({
@@ -62,10 +70,12 @@ class MainPage extends Component {
     });
   }
 
-  async getFusensData(userID) {
+  /**
+   * ログインしたユーザの全付箋データを取得する
+   */
+  async getFusensData() {
     const response = await FusenAPIClient.sendFusenGetRequest(
-      this.state.userID,
-      0
+      this.state.userID
     );
     if (response.result === "ok") {
       let fusenObj = {};
@@ -79,6 +89,9 @@ class MainPage extends Component {
     }
   }
 
+  /**
+   * 画面内における付箋の位置をランダムで生成する
+   */
   getRandomPosition() {
     const area = document.getElementsByClassName("areaContainer")[0] || {};
     const areaWidth = area.clientWidth || 1920;
@@ -100,6 +113,9 @@ class MainPage extends Component {
     };
   }
 
+  /**
+   *  取得した全付箋データの位置を初期化する
+   */
   initPositions(fusens) {
     let positions = {};
 
@@ -114,6 +130,10 @@ class MainPage extends Component {
     return positions;
   }
 
+  /**
+   * 付箋の表示内容を更新する
+   * 付箋の保存時，新規作成時に呼び出される
+   */
   updateFusen(fusen) {
     const fusensCopy = Object.assign({}, this.state.fusens);
     const positionsCopy = Object.assign({}, this.state.positions);
@@ -132,10 +152,13 @@ class MainPage extends Component {
     this.setState({ fusens: fusensCopy, positions: positionsCopy });
   }
 
+  /**
+   * 付箋を新規作成する
+   * 新規作成ボタンクリック時に呼び出される
+   */
   createFusen = async () => {
     const response = await FusenAPIClient.sendFusenCreateRequest(
-      this.state.userID,
-      0
+      this.state.userID
     );
 
     if (response.result === "ok") {
@@ -146,6 +169,10 @@ class MainPage extends Component {
     }
   };
 
+  /**
+   * 付箋を削除する
+   * 付箋が削除エリアにドロップされた時と削除ボタンクリック時に呼びされる
+   */
   deleteFusen = async fusenID => {
     const fusensCopy = Object.assign({}, this.state.fusens);
     const positionsCopy = Object.assign({}, this.state.positions);
@@ -174,6 +201,10 @@ class MainPage extends Component {
     }
   };
 
+  /**
+   * 付箋の位置を更新する
+   * 付箋がドロップされた時に呼び出される
+   */
   moveFusen = (fusenID, toX, toY) => {
     const positionsCopy = Object.assign({}, this.state.positions);
     positionsCopy[fusenID] = {
@@ -184,12 +215,20 @@ class MainPage extends Component {
     this.setState({ positions: positionsCopy });
   };
 
+  /**
+   * 付箋編集画面を開く
+   * 付箋クリック時に呼び出される
+   */
   openFusen = fusenID => {
     this.props.history.push({
       pathname: "/memo/" + fusenID
     });
   };
 
+  /**
+   * 付箋検索画面への遷移を行う
+   * 検索時，検索終了時に呼び出される
+   */
   updateSearchState = searchStr => {
     searchStr = searchStr.trim();
     const searchWords = searchStr.split(/\s+/); //スペース区切りで配列化
@@ -198,11 +237,12 @@ class MainPage extends Component {
     this.props.history.push(isSearch ? "/search" : "home");
   };
 
+  /**
+   * 付箋を保存する
+   * 付箋編集画面の保存ボタンクリック時に呼び出される
+   */
   saveFusen = async fusen => {
-    const response = await FusenAPIClient.sendFusenUpdateRequest(
-      this.state.userID,
-      fusen
-    );
+    const response = await FusenAPIClient.sendFusenUpdateRequest(fusen);
     if (response.result === "ok") {
       this.updateFusen(fusen);
       this.showNotification(NotificationType.success, "付箋を保存しました");
@@ -213,11 +253,19 @@ class MainPage extends Component {
     }
   };
 
+  /**
+   * ログイン中のアカウントIDを更新する
+   * ログイン成功時に呼び出される
+   */
   updateAccountID = (id, userName) => {
     this.setState({ userID: id, userName: userName });
     this.initFusen();
   };
 
+  /**
+   * 通知を表示する
+   * エラー発生時，操作成功時などに呼び出される
+   */
   showNotification = (variant = "success", message = "") => {
     const key = Math.random();
     this.setState({
@@ -226,6 +274,9 @@ class MainPage extends Component {
     });
   };
 
+  /**
+   * 通知を閉じる
+   */
   closeNotification = () => {
     this.setState({ notificationOpen: false });
   };

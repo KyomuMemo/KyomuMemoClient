@@ -14,10 +14,16 @@ const styles = {
   }
 };
 
+/**
+ * 検索結果エリア
+ * 検索に一致する付箋を並べて表示する
+ */
 export default class SearchResultArea extends Component {
-  //AND検索
+  /**
+   * AND検索
+   * 検索文字列が付箋の要素に含まれるか判定 タグは完全一致
+   */
   matchesSearch(fusen, searchWords) {
-    //付箋の要素に含まれるか判定 タグは完全一致
     const includedFusen = word => {
       //大文字小文字を無視
       word = word.toLowerCase();

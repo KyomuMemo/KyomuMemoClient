@@ -38,6 +38,11 @@ const style = {
   }
 };
 
+/**
+ * エディタコンポーネント
+ * 付箋を編集するエディタを提供するコンポーネント
+ * 保存ボタンがクリックされたら保存処理を呼び出す
+ */
 export default class EditorComponent extends Component {
   constructor(props) {
     super(props);
