@@ -58,6 +58,11 @@ const styles = {
   }
 };
 
+/**
+ * 付箋コンポーネント
+ * 個々の付箋となるコンポーネント
+ * 検索時は一致文字列のハイライトを行う
+ */
 const FusenComponent = props => {
   const { fusen, searchWords, deleteFusen, openFusen } = props;
 

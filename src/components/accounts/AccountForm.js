@@ -35,6 +35,10 @@ const variables = {
   }
 };
 
+/**
+ * アカウント作成/ログインを行うフォーム
+ * 文字入力を受け付けるフィールドと送信ボタンからなる
+ */
 export default class AccountFormCompoent extends React.Component {
   constructor(props) {
     super(props);

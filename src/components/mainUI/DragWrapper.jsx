@@ -33,6 +33,10 @@ function collect(connect, monitor) {
   };
 }
 
+/**
+ * ドラッグラッパー
+ * 付箋コンポーネントをドラッグ可能にするためのコンポーネント
+ */
 class DragWrapper extends Component {
   componentDidMount() {
     const img = new Image();

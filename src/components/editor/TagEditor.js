@@ -13,6 +13,10 @@ const style = {
   }
 };
 
+/**
+ * タグエディタコンポーネント
+ * 一つ一つのタグ編集フィールドに該当
+ */
 export default class TagEditor extends React.Component {
   constructor(props) {
     super(props);

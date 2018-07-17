@@ -31,6 +31,10 @@ function collect(monitor) {
   };
 }
 
+/**
+ * ドラッグレイヤーコンポーネント
+ * ドラッグ中の付箋を表示するコンポーネント
+ */
 class DragFusenLayer extends React.Component {
   x = 0;
   y = 0;

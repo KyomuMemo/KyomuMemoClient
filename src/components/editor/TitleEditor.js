@@ -8,6 +8,10 @@ const style = {
   }
 };
 
+/**
+ * タイトルエディタコンポーネント
+ * タイトルを編集するフィールド
+ */
 export default class TitleEditor extends React.Component {
   constructor(props) {
     super(props);

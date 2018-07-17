@@ -1,3 +1,7 @@
+/**
+ * APIモック
+ * 本番環境では未使用
+ */
 class APIMock {
   static getAllFusen(userID) {
     if (this.fusens.length == 0) {
@@ -70,7 +74,6 @@ class APIMock {
   }
 }
 
-// ちょっと汚いけどMockだから許して
 APIMock.fusens = [];
 
 export default APIMock;

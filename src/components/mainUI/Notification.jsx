@@ -47,6 +47,10 @@ const variantIcon = {
   info: <InfoIcon style={styles.icon} />
 };
 
+/**
+ * 通知コンポーネント
+ * エラー発生時や操作成功時のメッセージ表示を行うコンポーネント
+ */
 const Notification = props => {
   const { closeNotification, open, notificationData } = props;
 

@@ -11,6 +11,10 @@ const styles = {
   }
 };
 
+/**
+ * 付箋新規作成ボタン
+ * クリック時にmainUIの付箋作成処理を呼び出す
+ */
 const CreateFusenButtonComponent = props => (
   <div>
     <Button

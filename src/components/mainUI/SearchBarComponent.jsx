@@ -21,6 +21,10 @@ const styles = {
   }
 };
 
+/**
+ * 検索バーコンポーネント
+ * 入力文字確定時にmainUIの検索処理を呼び出す
+ */
 class SearchBarComponent extends Component {
   constructor(props) {
     super(props);

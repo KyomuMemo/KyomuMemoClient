@@ -24,6 +24,9 @@ const styles = {
 };
 
 const deleteTarget = {
+  /**
+   *  付箋がドロップされたらmainUIの付箋削除処理を呼び出す
+   */
   drop(props, monitor, component) {
     const item = monitor.getItem();
     props.deleteFusen(item.fusenID);
@@ -38,6 +41,10 @@ function collect(connect, monitor) {
   };
 }
 
+/**
+ * デリートエリアコンポーネント
+ * 付箋ドラッグ中のみ画面左下に表示される
+ */
 class DeleteArea extends Component {
   render() {
     const { connectDropTarget, isOver, canDrop } = this.props;
