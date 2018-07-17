@@ -52,7 +52,7 @@ class MainPage extends Component {
   }
 
   async initFusen() {
-    const fusens = await this.getFusensData(this.state.userID);
+    const fusens = await this.getFusensData();
     const positions = this.initPositions(fusens);
 
     this.setState({
@@ -62,7 +62,7 @@ class MainPage extends Component {
     });
   }
 
-  async getFusensData(userID) {
+  async getFusensData() {
     const response = await FusenAPIClient.sendFusenGetRequest(
       this.state.userID
     );
