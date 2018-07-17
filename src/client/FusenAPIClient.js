@@ -4,7 +4,7 @@ import { API_URL } from "../constant";
 const url = API_URL;
 
 class FusenAPIClient {
-  static async sendFusenCreateRequest(accountID, fusenID) {
+  static async sendFusenCreateRequest(accountID) {
     try {
       const result = await axios.post(
         url + "memo/create",
@@ -20,7 +20,7 @@ class FusenAPIClient {
     }
   }
 
-  static async sendFusenUpdateRequest(accountID, fusenData) {
+  static async sendFusenUpdateRequest(fusenData) {
     try {
       const result = await axios({
         method: "post",
@@ -52,7 +52,7 @@ class FusenAPIClient {
       }
     }
   }
-  static async sendFusenGetRequest(accountID, fusenID) {
+  static async sendFusenGetRequest(accountID) {
     try {
       const result = await axios.post(
         url + "memo/get",

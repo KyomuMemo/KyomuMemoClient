@@ -64,8 +64,7 @@ class MainPage extends Component {
 
   async getFusensData(userID) {
     const response = await FusenAPIClient.sendFusenGetRequest(
-      this.state.userID,
-      0
+      this.state.userID
     );
     if (response.result === "ok") {
       let fusenObj = {};
@@ -134,8 +133,7 @@ class MainPage extends Component {
 
   createFusen = async () => {
     const response = await FusenAPIClient.sendFusenCreateRequest(
-      this.state.userID,
-      0
+      this.state.userID
     );
 
     if (response.result === "ok") {
@@ -199,10 +197,7 @@ class MainPage extends Component {
   };
 
   saveFusen = async fusen => {
-    const response = await FusenAPIClient.sendFusenUpdateRequest(
-      this.state.userID,
-      fusen
-    );
+    const response = await FusenAPIClient.sendFusenUpdateRequest(fusen);
     if (response.result === "ok") {
       this.updateFusen(fusen);
       this.showNotification(NotificationType.success, "付箋を保存しました");
